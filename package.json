@@ -21,5 +21,13 @@
     "typescript": "^2.5.2"
   },
   "main": "index.js",
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftwarePioniere/schematics.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SoftwarePioniere/schematics/issues"
+  },
+  "homepage": "https://github.com/SoftwarePioniere/schematics#readme"
 }
