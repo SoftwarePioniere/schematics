@@ -1,6 +1,6 @@
 {
   "name": "@softwarepioniere/schematics",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -13,16 +13,22 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^0.3.1",
-    "@angular-devkit/schematics": "^0.3.1",
+    "@angular-devkit/schematics": "^0.4.2",
     "@ngrx/schematics": "^5.1.0",
     "@types/jasmine": "^2.6.0",
-    "@types/node": "^8.0.31",
-    "jasmine": "^2.8.0",
+    "@types/node": "^9.4.6",
+    "jasmine": "^3.0.0",
     "typescript": "^2.5.2"
   },
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "@angular-devkit/core": "^0.4.2",
+    "@angular-devkit/schematics": "^0.4.2",
+    "@types/jasmine": "^2.6.0",
+    "@types/node": "^9.4.6",
+    "jasmine": "^3.0.0",
+    "typescript": "^2.5.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SoftwarePioniere/schematics.git"

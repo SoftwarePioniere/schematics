@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
 
 /**
- * Generated class for the <%= ClassName %>LoeschenModal page.
+ * Generated class for the <%= classify(name) %>LoeschenModal page.
  *
  * See http://docs.softwarepioniere.de/docs/components/#navigation for more info
  * on Ionic pages and navigation.
@@ -10,10 +10,10 @@ import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular
 
 @IonicPage()
 @Component({
-    selector: 'modal-<%= FILENAME %>-loeschen',
-    templateUrl: '<%= FILENAME %>-loeschen.modal.html',
+    selector: 'modal-<%= dasherize(name) %>-loeschen',
+    templateUrl: '<%= dasherize(name) %>-loeschen.modal.html',
 })
-export class <%= ClassName %>LoeschenModal {
+export class <%= classify(name) %>LoeschenModal {
 
     private titel: string = "";
 
@@ -24,7 +24,7 @@ export class <%= ClassName %>LoeschenModal {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad <%= ClassName %>LoeschenModal');
+        console.log('ionViewDidLoad <%= classify(name) %>LoeschenModal');
     }
 
 

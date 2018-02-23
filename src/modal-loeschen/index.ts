@@ -10,12 +10,29 @@ import {
     template,
     url,
 } from '@angular-devkit/schematics';
-
+import { normalize, strings } from '@angular-devkit/core';
 
 // Instead of `any`, it would make sense here to get a schema-to-dts package and output the
 // interfaces so you get type-safe options.
 export default function (options: any): Rule {
     // The chain rule allows us to chain multiple rules and apply them one after the other.
+    options.ClassName = options.name.substring(0, 1).toLocaleUpperCase() + options.name.substring(1);
+
+    let ngrxOptions = {
+        name: options.name,
+        path: normalize('pages/' + strings.dasherize(options.name)),
+        module: strings.dasherize(options.name) + "-loeschen.modal.module.ts",
+        flat: true,
+        feature: true
+    };
+
+    // let ngrxOptionsActions = {
+    //     name: options.name,
+    //     path: normalize('pages/' + strings.dasherize(options.name)),
+    //     module: strings.dasherize(options.name) + "-loeschen.modal.module.ts",
+    //     flat: true
+    // };
+
     return chain([
         // (_tree: Tree, context: SchematicContext) => {
         //   // Show the options for this Schematics.
@@ -45,13 +62,19 @@ export default function (options: any): Rule {
         //                     if a file is binary or not).
         mergeWith(apply(url('./files'), [
             template({
+                classify: strings.classify,
+                dasherize: strings.dasherize,
+                titel: options.titel,
                 INDEX: options.index,
-                FILENAME: options.name.toLowerCase(),
-                ClassName: options.name.substring(0, 1).toLocaleUpperCase() + options.name.substring(1),
-                titel: options.titel
+                name: options.name,
+                path: options.name.toLowerCase()
             }),
         ])),
 
-        externalSchematic('@ngrx/schematics', 'feature', {name: options.name,'module': options.name + '-loeschen.modal.module.ts'}),
+        // externalSchematic('@ngrx/schematics', 'feature', ngrxOptions),
+        // externalSchematic('@ngrx/schematics', 'action', ngrxOptions),
+        externalSchematic('@ngrx/schematics', 'reducer', ngrxOptions),
+        externalSchematic('@ngrx/schematics', 'effect', ngrxOptions),
+        externalSchematic('@ngrx/schematics', 'store', ngrxOptions)
     ]);
 }
