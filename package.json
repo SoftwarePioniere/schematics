@@ -1,7 +1,7 @@
 {
   "name": "@softwarepioniere/schematics",
-  "version": "0.0.2",
-  "description": "A blank schematics",
+  "version": "0.0.4",
+  "description": "",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine **/*_spec.js"
@@ -9,12 +9,13 @@
   "keywords": [
     "schematics"
   ],
-  "author": "Torsten Zwoch",
+  "author": "Software Pioniere GmbH & Co. KG",
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^0.2.0",
-    "@angular-devkit/schematics": "^0.2.0",
+    "@angular-devkit/core": "^0.3.1",
+    "@angular-devkit/schematics": "^0.3.1",
+    "@ngrx/schematics": "^5.1.0",
     "@types/jasmine": "^2.6.0",
     "@types/node": "^8.0.31",
     "jasmine": "^2.8.0",

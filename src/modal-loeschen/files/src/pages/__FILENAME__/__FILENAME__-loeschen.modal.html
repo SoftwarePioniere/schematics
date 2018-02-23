@@ -1,0 +1,51 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content #content>
+	
+	<ion-fab top right>
+		<button ion-fab color="negativ" mini (tap)="abbrechen()">
+			<ion-icon name="close"></ion-icon>
+		</button>
+	</ion-fab>
+	
+	<ion-row fixed>
+		<ion-item col justify-content-center margin no-lines>
+			<h1 text-center>ACHTUNG | {{titel}}</h1>
+			<h2 text-center class="h2-label"><%= titel %> löschen</h2>
+		</ion-item>
+	</ion-row>
+	
+	<ion-row col-4 offset-4 justify-content-center>
+		<ion-icon class="meldungsicon warnung" name="warning"></ion-icon>
+	</ion-row>
+	
+	<!-- Trennlinie oben -->
+	<ion-row col-4 offset-4>
+		<ion-item no-padding style="line-height: 16px;"></ion-item>
+	</ion-row>
+	
+	<ion-row col-4 offset-4 justify-content-center>
+		<h2 text-center class="h2-text" margin-top>Beim Löschen einer Checkliste bleiben die Daten vergangener
+			Veranstaltungen erhalten.</h2>
+		
+		<h2 text-center class="h2-text" margin-top>Es werden jedoch alle zugewiesenen Rollen, Aufgaben und Templates
+			entfernt. Die Checkliste steht für zukünftige Veranstaltungen nicht mehr zur
+			Verfügung.</h2>
+		
+	</ion-row>
+	
+	<!-- Trennlinie unten -->
+	<ion-row col-4 offset-4>
+		<ion-item no-padding style="line-height: 16px;"></ion-item>
+	</ion-row>
+	
+	<ion-row col-4 offset-4 justify-content-center>
+		
+		<button ion-button margin-horizontal (tap)="abbrechen()">Abbrechen</button>
+		<button ion-button margin-horizontal (tap)="ok()" color="danger">Checkliste löschen</button>
+	
+	</ion-row>
+
+</ion-content>

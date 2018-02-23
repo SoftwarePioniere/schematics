@@ -4,6 +4,26 @@
     "schematics": {
       "description": "A blank schematic.",
       "factory": "./schematics/index#schematics"
+    },
+    "page": {
+      "aliases": [ "sopipage" ],
+      "factory": "./page",
+      "description": "Generate a angular page",
+      "schema": "./page/schema.json"
+    },
+    "my-other-schematic": {
+      "description": "A schematic that uses another schematics.",
+      "factory": "./my-other-schematic"
+    },
+    "my-schematic": {
+      "description": "An example schematic",
+      "factory": "./my-schematic/index#mySchematic"
+    },
+    "modal-loeschen": {
+      "aliases": [ "modalloeschen" ],
+      "factory": "./modal-loeschen",
+      "description": "Generate a delete modal",
+      "schema": "./modal-loeschen/schema.json"
     }
   }
 }

@@ -26,3 +26,26 @@ npm publish
 
 That's it!
  
+### CHANGE
+After add, remove or update a schematic, you must first run 
+
+```
+npm run build 
+```
+
+at root path.
+ 
+### RUN
+
+Run in debug mode
+```
+schematics .:page --name=test
+```
+
+Run without debug mode
+```
+schematics .:page --name=test --debug=false
+```
+
+### SCHEMATICS
+schematics .:modal-loeschen --name=xxx --titel=xxx --debug=false

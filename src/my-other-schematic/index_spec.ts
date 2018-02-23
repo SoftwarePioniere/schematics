@@ -6,11 +6,11 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 
-describe('schematics', () => {
+describe('my-other-schematic', () => {
   it('works', () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('schematics', {}, Tree.empty());
+    const tree = runner.runSchematic('my-other-schematic', {}, Tree.empty());
 
-    expect(tree.files).toEqual([]);
+    expect(tree.files.sort()).toEqual(['/allo', '/hola']);
   });
 });
