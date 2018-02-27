@@ -1,0 +1,50 @@
+<ion-content #content>
+
+	<ion-fab top right>
+		<button ion-fab color="negativ" mini (tap)="abbrechen()" title="Abbrechen">
+			<ion-icon name="close"></ion-icon>
+		</button>
+	</ion-fab>
+
+	<ion-row fixed>
+		<ion-item col justify-content-center margin no-lines>
+			<h1 text-center>Funktionsbereich | {{titel}}</h1>
+			<h2 text-center>Funktionsbereich-Admins auswählen</h2>
+		</ion-item>
+	</ion-row>
+
+	<ion-row col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-12>
+
+		<ion-col col-11 *ngIf="!(uiBenutzerLadeanimation$ | async)">
+
+			<ion-searchbar mode="ios" padding-top no-margin placeholder="Suche..." [(ngModel)]="filterString" (input)="benutzerSuchen($event.target.value)"
+						   (keyup)="benutzerSuchen($event.target.value)" autofocus></ion-searchbar>
+
+			<ion-spinner *ngIf="uiBenutzerLadeanimation$|async" align-self-center color="sopi-deko" name="dots"></ion-spinner>
+
+			<ion-item no-padding text-wrap *ngIf="(benutzerGruppiert$|async)?.length == 0">
+				<p text-wrap>Es stehen keine Benutzer zur Auswahl. Bitte der IT-Abteilung Bescheid geben.</p>
+			</ion-item>
+
+			<ion-item-group *ngFor="let gruppe of (benutzerGruppiert$|async)" [id]="gruppe.titel">
+				<ion-item-divider class="divider" sticky>{{gruppe.titel}}</ion-item-divider>
+
+				<ion-item mode="ios" *ngFor="let benutzer of gruppe.items">
+					<ion-checkbox mode="ios" (ionChange)="auswahl(benutzer)" [(ngModel)]="benutzer.selected"></ion-checkbox>
+					<ion-label class="h3">{{benutzer.titel}}</ion-label>
+				</ion-item>
+			</ion-item-group>
+		</ion-col>
+
+		<ion-col col-1 item-right>
+			<button ion-button clear class="abc-button" [disabled]="!(index.aktiv)" (click)="scrollTo(index.titel)" *ngFor="let index of uiIndex$ | async">{{index.titel}}</button>
+		</ion-col>
+	</ion-row>
+
+	<ion-fab bottom right>
+		<button ion-fab color="positiv" mini (tap)="ok()" title="Ok">
+			<ion-icon name="checkmark"></ion-icon>
+		</button>
+	</ion-fab>
+
+</ion-content>

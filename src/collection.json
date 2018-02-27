@@ -24,6 +24,12 @@
       "factory": "./modal-loeschen",
       "description": "Generate a delete modal",
       "schema": "./modal-loeschen/schema.json"
+    },
+    "modal-auswahl": {
+    "aliases": [ "modalauswahl" ],
+    "factory": "./modal-auswahl",
+    "description": "Generate a delete modal",
+    "schema": "./modal-auswahl/schema.json"
     }
   }
 }

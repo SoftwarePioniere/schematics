@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "modalauswahl",
+  "title": "Generate a selection modal",
+  "type": "object",
+  "properties": {
+    "index": {
+      "type": "number",
+      "default": 1
+    },
+    "name": {
+      "type": "string"
+    },
+    "titel": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "titel"
+  ]
+}
