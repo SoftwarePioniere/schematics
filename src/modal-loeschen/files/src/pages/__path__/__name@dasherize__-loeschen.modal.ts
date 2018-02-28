@@ -17,7 +17,7 @@ export class <%= classify(name) %>LoeschenModal {
 
     private titel: string = "";
     private untertitel: string = "";
-    private text: Array = [];
+    private hinweistext: Array<string> = [];
     private abbrechenButton: string = "";
     private okButton: string = "";
 

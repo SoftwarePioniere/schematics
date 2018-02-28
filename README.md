@@ -1,5 +1,10 @@
 # HOW TO USE
 
+### Installation
+
+npm i -g @softwarepioniere/schematics
+
+
 ### USE LoeschenModal
 
 Run 
@@ -27,7 +32,7 @@ Call the modal.
 let params = {
     titel: "ACHTUNG",
     untertitel: "Benutzer Mustermann löschen?",
-    text: [
+    hinweistext: [
             'Soll der Benutzer tatsächlich gelöscht werden?', 
             'Durch das Löschen des Benutzers wird er nicht mehr in der Anzeige erscheinen.'
         ],
@@ -35,7 +40,7 @@ let params = {
     okButton: "Benutzer löschen"
 };
 
-let modal = this.modalCtrl.create(AutoAuswahlModal, params);
+let modal = this.modalCtrl.create(AutoLoeschenModal, params);
 modal.onDidDismiss(data => {
     if (data != null) {
         // User clicked ok
