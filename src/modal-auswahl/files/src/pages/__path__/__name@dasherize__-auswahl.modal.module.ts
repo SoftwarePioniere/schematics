@@ -4,10 +4,7 @@ import {HttpModule, Http, XHRBackend, RequestOptions, JsonpModule} from "@angula
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {DBModule} from "@ngrx/db";
-import {schema} from './db';
 import {reducers} from './reducer';
-import {<%= classify(name) %>AuswahlModalUiEffects} from './effects.ui';
-import {<%= classify(name) %>AuswahlModalBenutzerverwaltungQueryEffects} from "./effects.benutzerverwaltung.query";
 
 import { <%= classify(name) %>AuswahlModal } from './<%= dasherize(name) %>-auswahl.modal';
 
@@ -20,10 +17,7 @@ import { <%= classify(name) %>AuswahlModal } from './<%= dasherize(name) %>-ausw
 
         StoreModule.forFeature('<%= classify(name) %>AuswahlModal', reducers),
 
-        // EffectsModule.forFeature([<%= classify(name) %>ModalUiEffects, <%= classify(name) %>ModalBenutzerverwaltungQueryEffects]),
-        EffectsModule.forFeature([<%= classify(name) %>AuswahlModalUiEffects]),
-
-        DBModule.provideDB(schema)
+        EffectsModule.forFeature([])
     ],
     providers: []
 })

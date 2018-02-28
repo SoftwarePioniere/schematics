@@ -1,6 +1,6 @@
 import {createSelector, createFeatureSelector, ActionReducerMap, Action} from '@ngrx/store';
 import * as actionsUi from './actions.ui';
-import * as apiActions from './<%= dasherize(name) %>-auswahl.modal';
+import {<%= classify(name) %>AuswahlModalConfig} from './<%= dasherize(name) %>-auswahl.modal';
 
 export interface DividerGroup {
     titel: string,
@@ -32,17 +32,17 @@ function itemsGruppierenUndFiltern(benutzer: Array<CheckboxWrapper>, state: Page
     benutzer.filter(item => {
         return filterString == "" || item.titel.toLowerCase().indexOf(filterString.toLowerCase()) != -1;
     }).filter(item => {
-        let nichtAnzuzeigenderBenutzer = state.nichtAnzuzeigendeItems.find(i => i.benutzer_id == item.item.id);
+        let nichtAnzuzeigenderBenutzer = state.nichtAnzuzeigendeItems.find(i => i == item.item[<%= classify(name) %>AuswahlModalConfig.nichtAnzuzeigendeObjektEigenschaft]);
         return nichtAnzuzeigenderBenutzer == null;
     }).forEach(checkboxWrapper => {
         let divTitle = "";
 
-        if(checkboxWrapper.item != null && checkboxWrapper.item.last_name != null){
-            divTitle = checkboxWrapper.item.displayText.substring(0, 1).toUpperCase();
+        if(checkboxWrapper.item != null && checkboxWrapper.item[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft] != null){
+            divTitle = checkboxWrapper.item[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft].substring(0, 1).toUpperCase();
         }else{
             divTitle = "";
         }
-        let div = itemsGruppiert.find(i => i.titel == divTitle);
+        let div = itemsGruppiert.find(i => i[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft] == divTitle);
 
         if (div == null) {
             div = <DividerGroup>{titel: divTitle, items: []};
@@ -62,7 +62,7 @@ function indexAufbauen(itemsGruppiert: Array<DividerGroup>): Array<IndexWrapper>
     });
 
     let newIndex = index.map((x: any) => {
-        let div = itemsGruppiert.find(i => i.titel.toUpperCase() == x.titel.toUpperCase());
+        let div = itemsGruppiert.find(i => i[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft].toUpperCase() == x[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft].toUpperCase());
 
         if (div != null) {
             x.aktiv = true;
@@ -110,11 +110,11 @@ export function pageReducer(state = initialPageState, action: Action): PageState
         }
 
 
-        case apiActions.actionApi.actionGeladen: {
+        case <%= classify(name) %>AuswahlModalConfig.actionGeladen: {
             // Items wrappen
-            const itemsCheckboxWrapped: CheckboxWrapper[] = action.payload.map(item => {
+            const itemsCheckboxWrapped: CheckboxWrapper[] = action['payload'].map(item => {
                 return <CheckboxWrapper> {
-                    titel: item.displayText,
+                    titel: item[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft],
                     selected: false,
                     item: item
                 };
@@ -132,11 +132,11 @@ export function pageReducer(state = initialPageState, action: Action): PageState
             });
         }
 
-        case apiActions.actionApi.actionLaden: {
+        case <%= classify(name) %>AuswahlModalConfig.actionLaden: {
             return Object.assign({}, state, <PageState>{uiLadeanimation: true});
         }
 
-        case apiActions.actionApi.actionFehler: {
+        case <%= classify(name) %>AuswahlModalConfig.actionFehler: {
             return Object.assign({}, state, <PageState>{uiLadeanimation: false, uiLadeFehler: true});
         }
 

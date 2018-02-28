@@ -16,11 +16,19 @@ import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular
 export class <%= classify(name) %>LoeschenModal {
 
     private titel: string = "";
+    private untertitel: string = "";
+    private text: Array = [];
+    private abbrechenButton: string = "";
+    private okButton: string = "";
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private viewCtrl: ViewController) {
         this.titel = this.navParams.get('titel');
+        this.untertitel = this.navParams.get('untertitel');
+        this.text = this.navParams.get('text');
+        this.abbrechenButton = this.navParams.get('abbrechenButton');
+        this.okButton = this.navParams.get('okButton');
     }
 
     ionViewDidLoad() {

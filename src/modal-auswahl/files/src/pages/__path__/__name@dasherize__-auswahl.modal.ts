@@ -11,11 +11,14 @@ import {CheckboxWrapper, DividerGroup, IndexWrapper} from "./reducer";
  * Generated class for the <%= classify(name) %>AuswahlModal page.
  */
 
-let actionApi = {
+export const <%= classify(name) %>AuswahlModalConfig = {
     action: null,
     actionLaden: "",
     actionGeladen: "",
-    actionFehler: ""
+    actionFehler: "",
+    objektEigenschaft: "",
+    nichtAnzuzeigendeObjekte: [],
+    nichtAnzuzeigendeObjektEigenschaft: ""
 };
 
 @IonicPage()
@@ -26,33 +29,39 @@ let actionApi = {
 export class <%= classify(name) %>AuswahlModal {
     @ViewChild(Content) content: Content;
 
-    private gruppiert$: Observable<DividerGroup[]>;
+    private itemsGruppiert$: Observable<DividerGroup[]>;
     private uiLadeanimation$: Observable<boolean>;
     private uiLadeFehler$: Observable<boolean>;
     private uiIndex$: Observable<IndexWrapper[]>;
     private filterString: string = "";
 
     private titel: string = "";
-    private aktuell: Array<any>;
+    private untertitel: string = "";
+    private keineDatenInfotext: string = "";
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                 private viewCtrl: ViewController,
                 private _store: Store<from<%= classify(name) %>AuswahlModal.PageState>) {
-        this.aktuell = this.navParams.get('aktuell');
         this.titel = this.navParams.get('titel');
-        actionApi.action = this.navParams.get('action');
-        actionApi.actionLaden = this.navParams.get('actionLaden');
-        actionApi.actionGeladen = this.navParams.get('actionGeladen');
-        actionApi.actionFehler = this.navParams.get('actionFehler');
+        this.untertitel = this.navParams.get('untertitel');
+        this.keineDatenInfotext = this.navParams.get('keineDatenInfotext');
+
+        <%= classify(name) %>AuswahlModalConfig.action = this.navParams.get('action');
+        <%= classify(name) %>AuswahlModalConfig.actionLaden = this.navParams.get('actionLaden');
+        <%= classify(name) %>AuswahlModalConfig.actionGeladen = this.navParams.get('actionGeladen');
+        <%= classify(name) %>AuswahlModalConfig.actionFehler = this.navParams.get('actionFehler');
+        <%= classify(name) %>AuswahlModalConfig.objektEigenschaft = this.navParams.get('objektEigenschaft');
+        <%= classify(name) %>AuswahlModalConfig.nichtAnzuzeigendeObjekte = this.navParams.get('nichtAnzuzeigendeObjekte');
+        <%= classify(name) %>AuswahlModalConfig.nichtAnzuzeigendeObjektEigenschaft = this.navParams.get('nichtAnzuzeigendeObjektEigenschaft');
     }
 
     ionViewDidLoad() {
-        this._log.logVerbose('ionViewDidLoad <%= classify(name) %>AuswahlModal');
+        console.log('ionViewDidLoad <%= classify(name) %>AuswahlModal');
         this._store.dispatch(new actionsUi.PageStateResetAction());
-        this._store.dispatch(new actionsUi.NichtAnzuzeigendeItemsSetzenAction(this.aktuell));
+        this._store.dispatch(new actionsUi.NichtAnzuzeigendeItemsSetzenAction(<%= classify(name) %>AuswahlModalConfig.nichtAnzuzeigendeObjekte));
 
-        this.gruppiert$ = this._store.select(from<%= classify(name) %>AuswahlModal.getGruppiert);
+        this.itemsGruppiert$ = this._store.select(from<%= classify(name) %>AuswahlModal.getItemsGruppiert);
         this.uiLadeanimation$ = this._store.select(from<%= classify(name) %>AuswahlModal.getUiLadeanimation);
         this.uiLadeFehler$ = this._store.select(from<%= classify(name) %>AuswahlModal.getUiLadeFehler);
         this.uiIndex$ = this._store.select(from<%= classify(name) %>AuswahlModal.getUiIndex);
@@ -78,7 +87,7 @@ export class <%= classify(name) %>AuswahlModal {
     }
 
     datenLaden() {
-        this._store.dispatch(actionApi.action);
+        this._store.dispatch(<%= classify(name) %>AuswahlModalConfig.action);
     }
 
     suchen(filterString: string) {
