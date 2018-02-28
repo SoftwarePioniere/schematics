@@ -17,7 +17,7 @@
 
 		<ion-col col-11 *ngIf="!(uiLadeanimation$ | async)">
 
-			<ion-searchbar mode="ios" padding-top no-margin placeholder="Suche..." [(ngModel)]="filterString" (input)="suchen($event.target.value)"
+			<ion-searchbar mode="ios" padding-top no-margin placeholder="Suche..." (input)="suchen($event.target.value)"
 						   (keyup)="suchen($event.target.value)" autofocus></ion-searchbar>
 
 			<ion-spinner *ngIf="uiLadeanimation$|async" align-self-center color="sopi-deko" name="dots"></ion-spinner>

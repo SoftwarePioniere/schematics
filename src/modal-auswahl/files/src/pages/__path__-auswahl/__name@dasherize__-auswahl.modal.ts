@@ -33,7 +33,6 @@ export class <%= classify(name) %>AuswahlModal {
     private uiLadeanimation$: Observable<boolean>;
     private uiLadeFehler$: Observable<boolean>;
     private uiIndex$: Observable<IndexWrapper[]>;
-    private filterString: string = "";
 
     private titel: string = "";
     private untertitel: string = "";
