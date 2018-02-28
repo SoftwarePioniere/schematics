@@ -62,7 +62,7 @@ function indexAufbauen(itemsGruppiert: Array<DividerGroup>): Array<IndexWrapper>
     });
 
     let newIndex = index.map((x: any) => {
-        let div = itemsGruppiert.find(i => i[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft].toUpperCase() == x[<%= classify(name) %>AuswahlModalConfig.objektEigenschaft].toUpperCase());
+        let div = itemsGruppiert.find(i => i.titel.toUpperCase() == x.titel.toUpperCase());
 
         if (div != null) {
             x.aktiv = true;

@@ -26,7 +26,7 @@ export class <%= classify(name) %>LoeschenModal {
                 private viewCtrl: ViewController) {
         this.titel = this.navParams.get('titel');
         this.untertitel = this.navParams.get('untertitel');
-        this.text = this.navParams.get('text');
+        this.hinweistext = this.navParams.get('hinweistext');
         this.abbrechenButton = this.navParams.get('abbrechenButton');
         this.okButton = this.navParams.get('okButton');
     }
