@@ -1,3 +1,54 @@
 modal-<%= dasherize(name) %>-auswahl {
+  ion-content {
+    background: $hintergrund-von; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(300deg, $hintergrund-bis, $hintergrund-von); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(300deg, $hintergrund-bis, $hintergrund-von); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(300deg, $hintergrund-bis, $hintergrund-von); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(300deg, $hintergrund-bis, $hintergrund-von); /* Standard syntax */
+  }
 
+  /* SCHRIFTEN und STILE*/
+  h1 {
+    font-size: 2.4rem !important;
+    font-weight: 300 !important;
+    color: white !important;
+  }
+
+  h2 {
+    font-size: 1.8rem !important;
+    font-weight: 300 !important;
+    color: $label-farbe !important;
+  }
+
+  /* ION-ITEM & Co. */
+  .item-md {
+    background-color: transparent;
+    border-color: #112233;
+  }
+
+  /* BUTTONs*/
+  .fab {
+    background-color: $button-background;
+
+    ion-icon {
+      color: #d0d0da;
+    }
+  }
+
+  /* Allg */
+  .positiv {
+    color: $positiv !important;
+  }
+
+  .negativ {
+    color: $negativ !important;
+  }
+
+  .warnung {
+    color: $warnung !important;
+  }
+
+  .meldungsicon {
+    font-size: 10rem;
+  }
 }
