@@ -23,7 +23,7 @@ export const <%= classify(name) %>AuswahlModalConfig = {
 
 @IonicPage()
 @Component({
-    selector: 'page-<%= dasherize(name) %>-auswahl',
+    selector: 'modal-<%= dasherize(name) %>-auswahl',
     templateUrl: '<%= dasherize(name) %>-auswahl.modal.html',
 })
 export class <%= classify(name) %>AuswahlModal {

@@ -2,7 +2,42 @@
 
 ### Installation
 
+Run
+
+```
+npm i @ngrx/store --save
+npm i @ngrx/effects --save
 npm i -g @softwarepioniere/schematics
+```
+
+## Style Variables
+
+Add the following variables to /src/theme/variables.scss
+
+```
+$label-farbe: #999999;
+$hintergrund-von: #2b2b2b;
+$hintergrund-bis: #1a1a1a;
+$hintergrund-divider: #1a1a1a;
+$vordergrund-divider: $label-farbe;
+$trennerFarbe: #444444;
+$button-background: #283440;
+
+$positiv: #488800;
+$warnung: yellow;
+$negativ: #f53d3d;
+
+// IONIC-Variablen
+$fab-size: 70px;
+$fab-mini-size: 60px;
+$fab-list-button-background-color: $button-background;
+
+$modal-inset-width: 90%;
+$modal-inset-min-width: 768px;
+
+$modal-inset-height-small: 500px;
+$modal-inset-height-large: 90%;
+```
 
 
 ### USE LoeschenModal
@@ -84,7 +119,7 @@ let params = {
     keineDatenInfotext: "Es wurden keine Benutzer gefunden",
     objektEigenschaft: "titel",
     nichtAnzuzeigendeObjekte: [],
-    nichtAnzuzeigendeObjektEigenschaft: "id"
+    nichtAnzuzeigendeObjektEigenschaft: "id",
     action : actionBenutzerladen,
     actionLaden : actionsBenutzerverwaltungQuery.BENUTZER_LADEN,
     actionGeladen : actionsBenutzerverwaltungQuery.BENUTZER_LADEN_ERFOLGREICH,
