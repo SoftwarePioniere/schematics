@@ -47,4 +47,8 @@ modal-<%= dasherize(name) %>-loeschen {
   .warnung {
     color: $warnung !important;
   }
+
+  .meldungsicon {
+    font-size: 10rem;
+  }
 }
