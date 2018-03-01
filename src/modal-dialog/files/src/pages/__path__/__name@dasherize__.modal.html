@@ -18,7 +18,7 @@
 	</ion-row>
 	
 	<ion-row col-4 offset-4 justify-content-center>
-		<ion-icon class="{{ iconClass }}" name="{{ icon }}"></ion-icon>
+		<ion-icon ngClass="{{iconClass}}" name="{{iconName}}"></ion-icon>
 	</ion-row>
 	
 	<!-- Trennlinie oben -->
@@ -37,8 +37,8 @@
 	
 	<ion-row col-4 offset-4 justify-content-center>
 		
-		<button ion-button margin-horizontal (tap)="abbrechen()">{{ abbrechenButton }}</button>
-		<button ion-button margin-horizontal (tap)="ok()" color="danger">{{ okButton}}</button>
+		<button ion-button margin-horizontal (tap)="abbrechen()" ngClass="{{abbrechenButtonClass}}">{{ abbrechenButton }}</button>
+		<button ion-button margin-horizontal (tap)="ok()" ngClass="{{okButtonClass}}">{{ okButton }}</button>
 	
 	</ion-row>
 

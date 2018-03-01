@@ -71,8 +71,8 @@ let params = {
             'Soll der Benutzer tatsächlich gelöscht werden?', 
             'Durch das Löschen des Benutzers wird er nicht mehr in der Anzeige erscheinen.'
         ],
-        icon: 'warning',
-        iconClass: 'meldungsicon warnung',
+    icon: 'warning',
+    iconClass: 'meldungsicon warnung',
     abbrechenButton: "Abbrechen",
     okButton: "Benutzer löschen"
 };

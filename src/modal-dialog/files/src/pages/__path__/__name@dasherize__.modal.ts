@@ -20,8 +20,10 @@ export class <%= classify(name) %>Modal {
     private hinweistext: Array<string> = [];
     private abbrechenButton: string = "";
     private okButton: string = "";
-    private icon: string = "warning";
+    private iconName: string = "warning";
     private iconClass: string = "meldungsicon warnung";
+    private abbrechenButtonClass: string = "";
+    private okButtonClass: string = "";
 
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
@@ -31,8 +33,10 @@ export class <%= classify(name) %>Modal {
         this.hinweistext = this.navParams.get('hinweistext');
         this.abbrechenButton = this.navParams.get('abbrechenButton');
         this.okButton = this.navParams.get('okButton');
-        this.icon = (this.navParams.get('icon')!=null) ? this.navParams.get('icon') : this.icon;
-        this.iconClass = (this.navParams.get('iconClass')!=null) ? this.navParams.get('iconClass') : this.iconClass;
+        this.iconName = (this.navParams.get('iconName') !=null ) ? this.navParams.get('iconName') : this.iconName;
+        this.iconClass = (this.navParams.get('iconClass') !=null ) ? this.navParams.get('iconClass') : this.iconClass;
+        this.abbrechenButtonClass = (this.navParams.get('abbrechenButtonClass') !=null ) ? this.navParams.get('abbrechenButtonClass') : this.abbrechenButtonClass;
+        this.okButtonClass = (this.navParams.get('okButtonClass') !=null ) ? this.navParams.get('okButtonClass') : this.okButtonClass;
     }
 
     ionViewDidLoad() {
