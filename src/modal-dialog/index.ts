@@ -28,7 +28,6 @@ export default function (options: any): Rule {
             template({
                 classify: strings.classify,
                 dasherize: strings.dasherize,
-                titel: options.titel,
                 INDEX: options.index,
                 name: options.name,
                 path: options.name.toLowerCase()

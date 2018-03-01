@@ -10,13 +10,9 @@
     },
     "name": {
       "type": "string"
-    },
-    "titel": {
-      "type": "string"
     }
   },
   "required": [
-    "name",
-    "titel"
+    "name"
   ]
 }
