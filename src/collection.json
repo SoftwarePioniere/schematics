@@ -19,17 +19,17 @@
       "description": "An example schematic",
       "factory": "./my-schematic/index#mySchematic"
     },
-    "modal-loeschen": {
-      "aliases": [ "modalloeschen" ],
-      "factory": "./modal-loeschen",
-      "description": "Generate a delete modal",
-      "schema": "./modal-loeschen/schema.json"
+    "modal-dialog": {
+      "aliases": [ "modaldialog" ],
+      "factory": "./modal-dialog",
+      "description": "Generate a modal dialog",
+      "schema": "./modal-dialog/schema.json"
     },
     "modal-auswahl": {
-    "aliases": [ "modalauswahl" ],
-    "factory": "./modal-auswahl",
-    "description": "Generate a delete modal",
-    "schema": "./modal-auswahl/schema.json"
+      "aliases": [ "modalauswahl" ],
+      "factory": "./modal-auswahl",
+      "description": "Generate a delete modal",
+      "schema": "./modal-auswahl/schema.json"
     }
   }
 }

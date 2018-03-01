@@ -40,12 +40,12 @@ $modal-inset-height-large: 90%;
 ```
 
 
-### USE LoeschenModal
+### USE DialogModal
 
 Run 
 
 ```
-schematics @softwarepioniere/schematics:modal-loeschen --name pagename --titel modaltitel
+schematics @softwarepioniere/schematics:modal-dialog --name loeschen --titel modaltitel
 ```
 
 Add new page/modal in src/app/app.module.ts at section *imports*
@@ -54,7 +54,7 @@ Add new page/modal in src/app/app.module.ts at section *imports*
 
 imports: [
         ...
-        PagenameLoeschenModalModule
+        LoeschenModalModule
         ...
 
         ]
@@ -71,11 +71,13 @@ let params = {
             'Soll der Benutzer tatsächlich gelöscht werden?', 
             'Durch das Löschen des Benutzers wird er nicht mehr in der Anzeige erscheinen.'
         ],
+        icon: 'warning',
+        iconClass: 'meldungsicon warnung',
     abbrechenButton: "Abbrechen",
     okButton: "Benutzer löschen"
 };
 
-let modal = this.modalCtrl.create(AutoLoeschenModal, params);
+let modal = this.modalCtrl.create(LoeschenModal, params);
 modal.onDidDismiss(data => {
     if (data != null) {
         // User clicked ok

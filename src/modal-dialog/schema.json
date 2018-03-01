@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "modalloeschen",
-  "title": "Generate a delete modal",
+  "id": "modaldialog",
+  "title": "Generate a modal dialog",
   "type": "object",
   "properties": {
     "index": {
