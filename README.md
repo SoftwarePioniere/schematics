@@ -45,7 +45,7 @@ $modal-inset-height-large: 90%;
 Run 
 
 ```
-schematics @softwarepioniere/schematics:modal-dialog --name loeschen --titel modaltitel
+schematics @softwarepioniere/schematics:modal-dialog --name loeschen
 ```
 
 Add new page/modal in src/app/app.module.ts at section *imports*
