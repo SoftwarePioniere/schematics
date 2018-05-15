@@ -1,0 +1,45 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content #content>
+	
+	<ion-fab top right>
+		<button ion-fab color="negativ" mini (tap)="abbrechen()">
+			<ion-icon name="close"></ion-icon>
+		</button>
+	</ion-fab>
+	
+	<ion-row fixed>
+		<ion-item col justify-content-center margin no-lines>
+			<h1 text-center>{{ titel }}</h1>
+			<h2 text-center class="h2-label">{{ untertitel }}</h2>
+		</ion-item>
+	</ion-row>
+	
+	<ion-row col-4 offset-4 justify-content-center>
+		<ion-icon ngClass="{{iconClass}}" name="{{iconName}}"></ion-icon>
+	</ion-row>
+	
+	<!-- Trennlinie oben -->
+	<ion-row col-4 offset-4>
+		<ion-item no-padding style="line-height: 16px;"></ion-item>
+	</ion-row>
+	
+	<ion-row col-4 offset-4 justify-content-center>
+		<h2 text-center class="h2-text" margin-top *ngFor="let text of hinweistext">{{ text }}</h2>
+	</ion-row>
+	
+	<!-- Trennlinie unten -->
+	<ion-row col-4 offset-4>
+		<ion-item no-padding style="line-height: 16px;"></ion-item>
+	</ion-row>
+	
+	<ion-row col-4 offset-4 justify-content-center>
+		
+		<button ion-button margin-horizontal (tap)="abbrechen()" ngClass="{{abbrechenButtonClass}}">{{ abbrechenButton }}</button>
+		<button ion-button margin-horizontal (tap)="ok()" ngClass="{{okButtonClass}}">{{ okButton }}</button>
+	
+	</ion-row>
+
+</ion-content>

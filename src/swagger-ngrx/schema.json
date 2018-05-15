@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "swaggerngrx",
+  "title": "Generate actions and effects for swagger client",
+  "type": "object",
+  "properties": {
+    "index": {
+      "type": "number",
+      "default": 1
+    },
+    "clientname": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string"
+    },
+    "requestparams": {
+      "type": "string"
+    },
+    "responseparams": {
+      "type": "string"
+    },
+    "targetpath": {
+      "type": "string"
+    },
+    "actiontype": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "clientname",
+    "method",
+    "requestparams",
+    "responseparams",
+    "targetpath",
+    "actiontype"
+  ]
+}

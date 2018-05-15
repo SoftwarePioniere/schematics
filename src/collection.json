@@ -17,7 +17,8 @@
     },
     "my-schematic": {
       "description": "An example schematic",
-      "factory": "./my-schematic/index#mySchematic"
+      "factory": "./my-schematic/index#mySchematic",
+      "schema": "./my-schematic/schema.json"
     },
     "modal-dialog": {
       "aliases": [ "modaldialog" ],
@@ -30,6 +31,12 @@
       "factory": "./modal-auswahl",
       "description": "Generate a delete modal",
       "schema": "./modal-auswahl/schema.json"
+    },
+    "swagger-ngrx": {
+      "aliases": [ "swagger" ],
+      "factory": "./swagger-ngrx",
+      "description": "Generate actions and effects for swagger client",
+      "schema": "./swagger-ngrx/schema.json"
     }
   }
 }

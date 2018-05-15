@@ -7,10 +7,18 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 
-describe('modal-auswahl', () => {
+describe('swagger-ngrx', () => {
   it('requires required option', () => {
     // We test that
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    expect(() => runner.runSchematic('modal-auswahl', {}, Tree.empty())).toThrow();
+    expect(() => runner.runSchematic('swagger-ngrx', {}, Tree.empty())).toThrow();
+  });
+
+  it('swagger-ngrx', () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const tree = runner.runSchematic('swagger-ngrx', { name: 'str',  titel: 'str' }, Tree.empty());
+
+    // Listing files
+    expect(tree.files.sort()).toEqual(['/allo', '/hola', '/page', '/page1']);
   });
 });

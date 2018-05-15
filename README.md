@@ -193,3 +193,7 @@ schematics .:page --name=test --debug=false
 schematics .:modal-loeschen --name=xxx --titel=xxx --debug=false
 
 
+schematics .:swagger-ngrx --url=https://bayer04-api-dev.azurewebsites.net/swagger/gastrochecks/swagger.json --clientname=gastrochecks --name=test --titel=ddd --debug=false
+
+# RUN
+node gen.js
