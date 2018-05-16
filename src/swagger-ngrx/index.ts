@@ -19,10 +19,16 @@ export default function (options: any): Rule {
     let methodWithoutType: string = options.method.replace('Post', '').replace('Get', '');
     let importpath = '../';
     let method = options.method.substr(0, 1).toLowerCase() + options.method.substr(1, options.method.length);
+    let group = (options.group != undefined) ? '/' + options.group : '';
+    let service = options.service;
+    let apiIsUsed = false;
 
     if (options.targetpath != "" && options.targetpath != undefined) {
         let folders = options.targetpath.match(/\//g);
         for (let i = 0; i <= folders.length; i++) {
+            importpath += '../';
+        }
+        if (options.group != undefined && options.group != "") {
             importpath += '../';
         }
     }
@@ -42,6 +48,7 @@ export default function (options: any): Rule {
         responseparamsVariableNames = parseParamsToVariableNames(options.responseparams);
     }
 
+    apiIsUsed = apiUsed(requestparams,responseparams);
 
     actions.push(mergeWith(apply(url('./files'), [
         template({
@@ -61,7 +68,10 @@ export default function (options: any): Rule {
             responseparamsVariableNames: responseparamsVariableNames,
             targetpath: options.targetpath,
             importpath: importpath,
-            actiontype: options.actiontype
+            actiontype: options.actiontype,
+            group: group,
+            service: service,
+            apiIsUsed: apiIsUsed
         }),
     ])));
 
@@ -113,4 +123,10 @@ export function parseParamsVariableNamesSucceed(params: string) {
         return '[' + params + ']';
     }
     return params;
+}
+
+export function apiUsed(requestParams: string, responseParams: string) {
+    let checkString:string = (requestParams != null) ? requestParams : "";
+    checkString += (responseParams != null) ? responseParams : "";
+    return (checkString.match(/api./g) != null);
 }

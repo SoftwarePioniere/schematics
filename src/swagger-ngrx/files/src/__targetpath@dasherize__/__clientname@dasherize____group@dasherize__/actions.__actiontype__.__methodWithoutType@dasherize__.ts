@@ -1,6 +1,5 @@
 import {Action} from '@ngrx/store';
-import * as api from '<%= importpath %>clients/<%= clientname %>';
-
+<% if (apiIsUsed !='') {%> import * as api from '<%= importpath %>clients/<%= clientname %>'; <% } %>
 
 export const <%= underscore(classify(methodWithoutType)).toUpperCase() %> = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> Gastrochecks';
 export const <%= underscore(classify(methodWithoutType)).toUpperCase() %>_ERFOLGREICH = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> erfolgreich Gastrochecks';

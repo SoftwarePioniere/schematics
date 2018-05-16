@@ -13,10 +13,12 @@ request.get(url, function (error, response, body) {
         console.log("------------")
         for (variable in api.paths) {
             if (api.paths[variable].get != undefined) {
+                console.log(api.paths[variable].get);
                 var requestParams = [];
                 var responseParams = [];
                 // var method = api.paths[variable].get.operationId.substr(3, api.paths[variable].get.operationId.length);
                 var method = api.paths[variable].get.operationId;
+                var group = api.paths[variable].get.tags[0];
 
                 if (api.paths[variable].get.parameters != undefined) {
                     console.log('\n' + variable);
@@ -49,8 +51,8 @@ request.get(url, function (error, response, body) {
                 }
 
                 // RUN SCHEMATICS
-                console.log('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=ngrx-client/test --actiontype=query --debug=false');
-                exec('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=ngrx-client/test --actiontype=query --debug=false', function (error, stdout, stderr) {
+                console.log('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=ngrx-client/test --group=' + group + ' --actiontype=query --debug=false');
+                exec('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method  + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=ngrx-client/test --group=' + group + ' --actiontype=query --debug=false', function (error, stdout, stderr) {
                     if (error) {
                         console.log(error);
                     }
@@ -65,10 +67,12 @@ request.get(url, function (error, response, body) {
         console.log("------------")
         for (variable in api.paths) {
             if (api.paths[variable].post != undefined) {
+                console.log(api.paths[variable].post);
                 var requestParams = [];
                 var responseParams = [];
                 // var method = api.paths[variable].post.operationId.substr(4, api.paths[variable].post.operationId.length);
                 var method = api.paths[variable].post.operationId;
+                var group = api.paths[variable].post.tags[0];
 
                 if (api.paths[variable].post.parameters != undefined) {
                     console.log('\n' + variable);
@@ -109,8 +113,8 @@ request.get(url, function (error, response, body) {
 
 
                 // RUN SCHEMATICS
-                console.log('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=ngrx-client/test  --actiontype=command --debug=false');
-                exec('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + '  --targetpath=ngrx-client/test  --actiontype=command --debug=false', function (error, stdout, stderr) {
+                console.log('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=ngrx-client/test  --group=' + group + ' --actiontype=command --debug=false');
+                exec('schematics .:swagger-ngrx --clientname=gastrochecks --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + '  --targetpath=ngrx-client/test  --group=' + group + ' --actiontype=command --debug=false', function (error, stdout, stderr) {
                     if (error) {
                         console.log(error);
                     }
