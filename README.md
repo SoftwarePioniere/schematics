@@ -192,8 +192,21 @@ schematics .:page --name=test --debug=false
 ### SCHEMATICS
 schematics .:modal-loeschen --name=xxx --titel=xxx --debug=false
 
+# Swagger Clients
 
-schematics .:swagger-ngrx --url=https://bayer04-api-dev.azurewebsites.net/swagger/gastrochecks/swagger.json --clientname=gastrochecks --name=test --titel=ddd --debug=false
+swagger-sources.json 
+````json
+[
+  {
+    "name": "clientname1",
+    "url": "https://xyz.com/swagger/client1/swagger.json"
+  },
+  {
+    "name": "clientname1",
+    "url": "https://xyz.com/swagger/client2/swagger.json"
+  }
+]
+````
 
 # RUN
 node gen.js

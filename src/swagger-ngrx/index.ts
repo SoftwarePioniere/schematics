@@ -21,12 +21,14 @@ export default function (options: any): Rule {
     let method = options.method.substr(0, 1).toLowerCase() + options.method.substr(1, options.method.length);
     let group = (options.group != undefined) ? '/' + options.group : '';
     let service = options.service;
-    let apiIsUsed = false;
+    let apiIsUsed:boolean;
 
     if (options.targetpath != "" && options.targetpath != undefined) {
         let folders = options.targetpath.match(/\//g);
-        for (let i = 0; i <= folders.length; i++) {
-            importpath += '../';
+        if(folders!=null){
+            for (let i = 0; i <= folders.length; i++) {
+                importpath += '../';
+            }
         }
         if (options.group != undefined && options.group != "") {
             importpath += '../';
