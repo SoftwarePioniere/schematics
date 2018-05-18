@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "generateindex",
+  "title": "Generate index.ts file in targetpath with all files from sourcepath",
+  "type": "object",
+  "properties": {
+    "index": {
+      "type": "number",
+      "default": 1
+    },
+    "sourcepath": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "sourcepath"
+  ]
+}

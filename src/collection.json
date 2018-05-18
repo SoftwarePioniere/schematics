@@ -37,6 +37,12 @@
       "factory": "./swagger-ngrx",
       "description": "Generate actions and effects for swagger client",
       "schema": "./swagger-ngrx/schema.json"
+    },
+    "generate-index": {
+      "aliases": [ "generateindex" ],
+      "factory": "./generate-index",
+      "description": "Generate index.ts file in targetpath with all files from sourcepath",
+      "schema": "./generate-index/schema.json"
     }
   }
 }

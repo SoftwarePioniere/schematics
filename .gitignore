@@ -2,6 +2,8 @@
 src/**/*.js
 src/**/*.js.map
 src/**/*.d.ts
+node_modules
+swagger-sources.json
 
 # IDEs
 .idea/

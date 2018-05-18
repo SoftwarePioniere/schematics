@@ -26,9 +26,13 @@ export default function (options: any): Rule {
     if (options.targetpath != "" && options.targetpath != undefined) {
         let folders = options.targetpath.match(/\//g);
         if(folders!=null){
+            // mindestens ein Slash vorhanden
             for (let i = 0; i <= folders.length; i++) {
                 importpath += '../';
             }
+        }else{
+            // Kein Slash vorhanden
+            importpath += '../';
         }
         if (options.group != undefined && options.group != "") {
             importpath += '../';

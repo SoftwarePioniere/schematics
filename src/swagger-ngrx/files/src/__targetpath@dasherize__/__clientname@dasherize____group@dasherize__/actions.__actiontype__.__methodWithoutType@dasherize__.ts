@@ -19,7 +19,7 @@ export class <%= classify(methodWithoutType) %>FehlerAction implements Action {
     }
 
 
-export type <%= classify(clientname) %><%= classify(actiontype) %>Actions =
+export type <%= classify(clientname) %><%= classify(actiontype) %><%= classify(methodWithoutType) %>Actions =
     <%= classify(methodWithoutType) %>Action
     | <%= classify(methodWithoutType) %>ErfolgreichAction
     | <%= classify(methodWithoutType) %>FehlerAction
