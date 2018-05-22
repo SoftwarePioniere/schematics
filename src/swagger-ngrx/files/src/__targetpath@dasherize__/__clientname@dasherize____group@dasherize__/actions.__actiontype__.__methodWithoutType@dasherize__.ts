@@ -15,7 +15,7 @@ export class <%= classify(methodWithoutType) %>ErfolgreichAction implements Acti
     }
 export class <%= classify(methodWithoutType) %>FehlerAction implements Action {
     readonly type = <%= underscore(classify(methodWithoutType)).toUpperCase() %>_FEHLER;
-    constructor(public payload: any <% if (requestparams !='') {%>, <% } %><%= requestparams %>) {}
+    constructor(public payload: any<% if (requestparams !='') {%>, <% } %><%= requestparams %>) {}
     }
 
 

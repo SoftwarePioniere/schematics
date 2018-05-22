@@ -8,14 +8,19 @@ var isDev = false;
 function generateIndex(targetpath, clientname, cnt) {
     if (cnt == clientFilesToGenerate[clientname]) {
         // generate index for client
-        // console.log('schematics .:generate-index --sourcepath=src/' + targetpath + '/' + clientname + ' --debug=false');
-        console.log('Generate ' + clientname + ' index.ts file for ' + clientFilesToGenerate[clientname] + ' files...')
         exec('schematics .:generate-index --sourcepath=src/' + targetpath + '/' + clientname + ' --debug=false', function (error, stdout, stderr) {
-            if (error) {
-                console.log('...failed! 💩')
-                console.log(error);
+            console.log('Generate ' + clientname + ' index.ts file for ' + clientFilesToGenerate[clientname] + ' files...')
+            if(stdout){
+                console.info(stdout + '... ' + clientname + ' done! 💪\n');
             }
-            console.log('... ' + clientname + ' done! 💪')
+
+            if(stderr){
+                console.error(stderr + '💩\n');
+            }
+
+            if (error) {
+                console.error(error + '... failed! 💩\n');
+            }
         });
     }
 }
@@ -32,14 +37,14 @@ function generateClient(clientname, url) {
             }
             clientFilesToGenerate[clientname] = cntGetPost;
 
-            if(isDev){
+            if (isDev) {
                 console.log("\n------------");
                 console.log("GET");
                 console.log("------------");
             }
             for (variable in api.paths) {
                 if (api.paths[variable].get != undefined) {
-                    if(isDev) {
+                    if (isDev) {
                         console.log(api.paths[variable].get);
                     }
 
@@ -50,7 +55,7 @@ function generateClient(clientname, url) {
                     var group = api.paths[variable].get.tags[0];
 
                     if (api.paths[variable].get.parameters != undefined) {
-                        if(isDev) {
+                        if (isDev) {
                             console.log('\n' + variable);
 
                             // REQUEST
@@ -59,63 +64,98 @@ function generateClient(clientname, url) {
                         for (param in api.paths[variable].get.parameters) {
                             if (api.paths[variable].get.parameters[param].in == 'path') {
                                 var param = api.paths[variable].get.parameters[param].name + ':' + api.paths[variable].get.parameters[param].type;
-                                requestParams.push(param);
-                                if(isDev) {
-                                    console.log(param + ' (PATH)');
+
+                                let result = param.split('[');
+                                if (result.length > 1) {
+                                    requestParams.push(result[0]);
+                                    if (isDev) {
+                                        console.log(result[0] + ' (PATH)');
+                                    }
+                                } else {
+                                    requestParams.push(param);
+                                    if (isDev) {
+                                        console.log(param + ' (PATH)');
+                                    }
                                 }
+
                             }
                         }
                     }
 
                     // RESPONSE
-                    if(isDev) {
+                    if (isDev) {
                         console.log('****** RESPONSE PARAMS ******');
                     }
                     if (api.paths[variable].get.responses != undefined) {
                         for (param in api.paths[variable].get.responses) {
                             if (api.paths[variable].get.responses[param].description == 'Success' && api.paths[variable].get.responses[param].schema != undefined && api.paths[variable].get.responses[param].schema.type != undefined) {
                                 var type = api.paths[variable].get.responses[param].schema.type;
-                                responseParams.push(type);
-                                if(isDev) {
-                                    console.log(type);
+
+                                let result = type.split('[');
+                                if (result.length > 1) {
+                                    responseParams.push(result[0]);
+                                    if (isDev) {
+                                        console.log(result);
+                                    }
+                                } else {
+                                    responseParams.push(type);
+                                    if (isDev) {
+                                        console.log(type);
+                                    }
                                 }
+
                             } else if (api.paths[variable].get.responses[param].description == 'Success' && api.paths[variable].get.responses[param].schema != undefined && api.paths[variable].get.responses[param].schema.$ref != undefined) {
                                 var ref = api.paths[variable].get.responses[param].schema.$ref.replace('#/definitions/', '');
-                                responseParams.push(ref);
-                                if(isDev) {
-                                    console.log(ref);
+                                let result = ref.split('[');
+                                if (result.length > 1) {
+                                    responseParams.push(result[0]);
+                                    if (isDev) {
+                                        console.log(result);
+                                    }
+                                } else {
+                                    responseParams.push(ref);
+                                    if (isDev) {
+                                        console.log(ref);
+                                    }
                                 }
+
                             }
                         }
                     }
 
                     // RUN SCHEMATICS
-                    if(isDev) {
+                    if (isDev) {
                         console.log('schematics .:swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=query --debug=false');
                     }
                     exec('schematics .:swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=query --debug=false', function (error, stdout, stderr) {
-                        if (error) {
-                            console.log('...failed! 💩')
-                            console.log(error);
+                        if(stdout){
+                            console.info(stdout + '... done! 💪\n');
                         }
-                        console.log('... ' + method + ' done! 💪')
+
+                        if (error) {
+                            console.error(error + '...failed! 💩\n')
+                        }
+
+                        if(stderr){
+                            console.error(stderr + '💩\n');
+                        }
                         cnt++;
                         generateIndex(targetpath, clientname, cnt);
                     });
-                    if(isDev) {
+                    if (isDev) {
                         console.log("_____________________________________________________________________");
                     }
                 }
             }
 
-            if(isDev) {
+            if (isDev) {
                 console.log("\n------------");
                 console.log("POST");
                 console.log("------------");
             }
             for (variable in api.paths) {
                 if (api.paths[variable].post != undefined) {
-                    if(isDev) {
+                    if (isDev) {
                         console.log(api.paths[variable].post);
                     }
                     var requestParams = [];
@@ -125,7 +165,7 @@ function generateClient(clientname, url) {
                     var group = api.paths[variable].post.tags[0];
 
                     if (api.paths[variable].post.parameters != undefined) {
-                        if(isDev) {
+                        if (isDev) {
                             console.log('\n' + variable);
 
                             // REQUEST
@@ -134,24 +174,43 @@ function generateClient(clientname, url) {
                         for (param in api.paths[variable].post.parameters) {
                             if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'path') {
                                 var param = api.paths[variable].post.parameters[param].name + ':' + api.paths[variable].post.parameters[param].type;
-                                requestParams.push(param);
-                                if(isDev) {
-                                    console.log(param + ' (PATH)');
+                                let result = param.split('[');
+                                if (result.length > 1) {
+                                    requestParams.push(result[0]);
+                                    if (isDev) {
+                                        console.log(result[0] + ' (PATH)');
+                                    }
+                                } else {
+                                    requestParams.push(param);
+                                    if (isDev) {
+                                        console.log(param + ' (PATH)');
+                                    }
                                 }
+
                             }
                             if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'body') {
                                 var param = api.paths[variable].post.parameters[param].schema.$ref.replace('#/definitions/', '');
-                                requestParams.push(param);
-                                if(isDev) {
-                                    console.log(param + ' (BODY)');
+                                let result = param.split('[');
+                                if (result.length > 1) {
+                                    requestParams.push(result[0]);
+                                    if (isDev) {
+                                        console.log(result[0] + ' (BODY)');
+                                    }
+                                } else {
+                                    requestParams.push(param);
+
+                                    if (isDev) {
+                                        console.log(param + ' (BODY)');
+                                    }
                                 }
+
                             }
                         }
 
 
                     }
                     // RESPONSE
-                    if(isDev) {
+                    if (isDev) {
                         console.log('****** RESPONSE PARAMS ******');
                     }
                     if (api.paths[variable].post.responses != undefined) {
@@ -159,13 +218,13 @@ function generateClient(clientname, url) {
                             if (api.paths[variable].post.responses[param].description == 'Success' && api.paths[variable].post.responses[param].schema != undefined && api.paths[variable].post.responses[param].schema.type != undefined) {
                                 var type = api.paths[variable].post.responses[param].schema.type;
                                 responseParams.push(type);
-                                if(isDev) {
+                                if (isDev) {
                                     console.log(type);
                                 }
                             } else if (api.paths[variable].post.responses[param].description == 'Success' && api.paths[variable].post.responses[param].schema != undefined && api.paths[variable].post.responses[param].schema.$ref != undefined) {
                                 var ref = api.paths[variable].post.responses[param].schema.$ref.replace('#/definitions/', '');
                                 responseParams.push(ref);
-                                if(isDev) {
+                                if (isDev) {
                                     console.log(ref);
                                 }
                             }
@@ -174,19 +233,27 @@ function generateClient(clientname, url) {
 
 
                     // RUN SCHEMATICS
-                    if(isDev) {
+                    if (isDev) {
                         console.log('schematics .:swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + '  --group=' + group + ' --actiontype=command --debug=false');
                     }
                     exec('schematics .:swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + '  --targetpath=' + targetpath + '  --group=' + group + ' --actiontype=command --debug=false', function (error, stdout, stderr) {
-                        if (error) {
-                            console.log('...failed! 💩')
-                            console.log(error);
+                        if(stdout){
+                            console.info(stdout + '... done! 💪\n');
                         }
-                        console.log('...' + method + 'done! 💪')
+
+                        if (error) {
+                            console.error(error + '... failed! 💩\n')
+                        }
+
+                        if(stderr){
+                            console.error(stderr + '💩\n');
+                        }
+
+
                         cnt++;
                         generateIndex(targetpath, clientname, cnt);
                     });
-                    if(isDev) {
+                    if (isDev) {
                         console.log("_____________________________________________________________________");
                     }
                 }
@@ -203,6 +270,7 @@ function readSwaggerSources() {
         var clients = JSON.parse(data);
 
         data = data.split("\n");
+        console.log('Start generate: please wait ...');
         for (var client in clients) {
             generateClient(clients[client].name, clients[client].url);
             console.log(clients[client]);
@@ -214,10 +282,9 @@ function build() {
     console.log("running build...");
     exec('npm run build', function (error, stdout, stderr) {
         if (error) {
-            console.log('...failed! 💩')
-            console.log(error);
+            console.log(error + '...failed! 💩\n');
         } else {
-            console.log("...build finished! 💪");
+            console.log("... build finished! 💪\n");
             readSwaggerSources();
         }
     });
@@ -227,10 +294,9 @@ function removeTargetpath() {
     console.log("Delete folder " + targetpath + "...");
     exec('rm -rf src/' + targetpath, function (error, stdout, stderr) {
         if (error) {
-            console.log('...failed! 💩')
-            console.log(error);
+            console.log(error + '... failed! 💩')
         } else {
-            console.log("...folder " + targetpath + " deleted! 💪");
+            console.log("... folder " + targetpath + " deleted! 💪");
             build();
         }
     });

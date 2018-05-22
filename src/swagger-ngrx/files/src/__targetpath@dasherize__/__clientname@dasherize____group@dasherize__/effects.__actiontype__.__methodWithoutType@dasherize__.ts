@@ -28,7 +28,7 @@ export class <%= classify(clientname) %>Modul<%= classify(methodWithoutType) %><
                 })
                 .catch((error:any) => {
                     this._communicationService.requestError(error<% if (requestparamsVariableNamesSucceed !='') {%>, <% } %><%= requestparamsVariableNamesSucceed %>);
-                    return of(new ac.<%= classify(methodWithoutType) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %> <%= requestparamsVariableNames %>));
+                    return of(new ac.<%= classify(methodWithoutType) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>));
                 })
         });
 
