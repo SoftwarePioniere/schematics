@@ -162,6 +162,10 @@ schematics --help
 To publish, simply do:
 
 ```bash
+git add .
+git commit -m "clean up"
+git push
+npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
 npm run build
 npm publish
 ```
