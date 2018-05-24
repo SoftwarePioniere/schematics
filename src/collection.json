@@ -43,6 +43,12 @@
       "factory": "./generate-index",
       "description": "Generate index.ts file in targetpath with all files from sourcepath",
       "schema": "./generate-index/schema.json"
+    },
+    "ui-actions": {
+      "aliases": [ "uiactions" ],
+      "factory": "./ui-actions",
+      "description": "Generate actions for ui",
+      "schema": "./ui-actions/schema.json"
     }
   }
 }

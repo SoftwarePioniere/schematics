@@ -193,8 +193,10 @@ Run without debug mode
 schematics .:page --name=test --debug=false
 ```
 
-### SCHEMATICS
+### SCHEMATICS`
+```
 schematics .:modal-loeschen --name=xxx --titel=xxx --debug=false
+```
 
 # Swagger Clients
 
@@ -212,5 +214,50 @@ swagger-sources.json
 ]
 ````
 
-# RUN
+## RUN
+```
 node gen.js
+``
+
+
+# Generate Actions
+
+/src/pages/pagename/actions.ui.json 
+````json
+{
+  "imports": [
+      "import {Action} from '@ngrx/store';",
+      "import {Action} from '@ngrx/db';"
+  ],
+  "actions": [
+    {
+      "page": "AufgabePage",
+      "action": "PageStateReset",
+      "payload": "",
+      "description": ""
+    },
+    {
+      "page": "AufgabePage",
+      "action": "IgnoreWS",
+      "payload": "public payload: any",
+      "description": "WS Action ignoriert"
+    },
+    {
+      "page": "AufgabePage",
+      "action": "AufgabeNichtOkGemeldet",
+      "payload": "",
+      "description": "Aufgabe nicht OK"
+    }
+  ]
+}
+````
+
+## RUN
+```
+node genUi.js
+```
+or
+```
+schematics .:ui-actions --sourcepath=src/pages --debug=false
+```
+
