@@ -4,11 +4,19 @@ var request = require('request');
 var targetpath = "ngrx-client";
 var clientFilesToGenerate = new Array();
 var isDev = false;
+var schematicCollection = "@softwarepioniere/schematics";
+
+
+// ARGV
+var x = process.argv.slice(2);
+if(x.length>0){
+    schematicCollection = x[0];
+}
 
 function generateIndex(targetpath, clientname, cnt) {
     if (cnt == clientFilesToGenerate[clientname]) {
         // generate index for client
-        exec('schematics .:generate-index --sourcepath=src/' + targetpath + '/' + clientname + ' --debug=false', function (error, stdout, stderr) {
+        exec('schematics ' + schematicCollection + ':generate-index --sourcepath=src/' + targetpath + '/' + clientname + ' --debug=false', function (error, stdout, stderr) {
             console.log('Generate ' + clientname + ' index.ts file for ' + clientFilesToGenerate[clientname] + ' files...')
             if(stdout){
                 console.info(stdout + '... ' + clientname + ' done! 💪\n');
@@ -125,9 +133,9 @@ function generateClient(clientname, url) {
 
                     // RUN SCHEMATICS
                     if (isDev) {
-                        console.log('schematics .:swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=query --debug=false');
+                        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=query --debug=false');
                     }
-                    exec('schematics .:swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=query --debug=false', function (error, stdout, stderr) {
+                    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=query --debug=false', function (error, stdout, stderr) {
                         if(stdout){
                             console.info(stdout + '... done! 💪\n');
                         }
@@ -234,9 +242,9 @@ function generateClient(clientname, url) {
 
                     // RUN SCHEMATICS
                     if (isDev) {
-                        console.log('schematics .:swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + '  --group=' + group + ' --actiontype=command --debug=false');
+                        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + '  --group=' + group + ' --actiontype=command --debug=false');
                     }
-                    exec('schematics .:swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + '  --targetpath=' + targetpath + '  --group=' + group + ' --actiontype=command --debug=false', function (error, stdout, stderr) {
+                    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + '  --targetpath=' + targetpath + '  --group=' + group + ' --actiontype=command --debug=false', function (error, stdout, stderr) {
                         if(stdout){
                             console.info(stdout + '... done! 💪\n');
                         }
@@ -279,15 +287,19 @@ function readSwaggerSources() {
 }
 
 function build() {
-    console.log("running build...");
-    exec('npm run build', function (error, stdout, stderr) {
-        if (error) {
-            console.log(error + '...failed! 💩\n');
-        } else {
-            console.log("... build finished! 💪\n");
-            readSwaggerSources();
-        }
-    });
+    if(schematicCollection == "."){
+        console.log("running build...");
+        exec('npm run build', function (error, stdout, stderr) {
+            if (error) {
+                console.log(error + '...failed! 💩\n');
+            } else {
+                console.log("... build finished! 💪\n");
+                readSwaggerSources();
+            }
+        });
+    }else{
+        readSwaggerSources();
+    }
 }
 
 function removeTargetpath() {

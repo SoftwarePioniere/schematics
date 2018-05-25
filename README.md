@@ -7,7 +7,8 @@ Run
 ```
 npm i @ngrx/store --save
 npm i @ngrx/effects --save
-npm i -g @softwarepioniere/schematics
+npm i @angular-devkit/schematics --save
+npm i @softwarepioniere/schematics --save
 ```
 
 ## Style Variables
@@ -140,6 +141,8 @@ modal.present();
 ```
 
 
+
+
 # Schematics development
 
 This repository is a basic Schematic implementation that serves as a starting point to create and publish Schematics to NPM.
@@ -198,8 +201,13 @@ schematics .:page --name=test --debug=false
 schematics .:modal-loeschen --name=xxx --titel=xxx --debug=false
 ```
 
+
+
+
+
 # Swagger Clients
 
+### CONFIG
 swagger-sources.json 
 ````json
 [
@@ -214,10 +222,15 @@ swagger-sources.json
 ]
 ````
 
-## RUN
+### RUN
 ```
-node gen.js
-``
+node node_modules/@softwarepioniere/schematics/gen.js
+```
+
+### RUN DEV
+```
+node gen.js .
+```
 
 
 # Generate Actions
@@ -252,12 +265,21 @@ node gen.js
 }
 ````
 
-## RUN
+### RUN
+search for all actions.ui.json and generate actions for it
 ```
-node genUi.js
+node node_modules/@softwarepioniere/schematics/genUi.js
+```
+or generate actions for a single page with
+```
+schematics @softwarepioniere/schematics:ui-actions --sourcepath=src/pages --debug=false
+```
+
+### RUN DEV
+```
+node genUi.js .
 ```
 or
 ```
 schematics .:ui-actions --sourcepath=src/pages --debug=false
 ```
-
