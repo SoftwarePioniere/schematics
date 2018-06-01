@@ -18,12 +18,15 @@ export default function (options: any): Rule {
         }
         for (let src of updateSrcs) {
             var importPath = src.path.substr(options.sourcepath.length, src.path.length);
-            if(importPath.endsWith('.ts')){
-                importPath = importPath.replace('.ts','');
+            if (importPath.endsWith('.ts')) {
+                importPath = importPath.replace('.ts', '');
             }
 
             if (src.path != null) {
-                content += "export * from '." + importPath + "'\n";
+                //check if file is in the same folder
+                importPath = (importPath.substr(0, 1) == "/") ? importPath : "/" + importPath;
+
+                content += "export * from '." + importPath + "';\n";
                 // console.log(importPath);
             }
         }

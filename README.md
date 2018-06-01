@@ -283,3 +283,37 @@ or
 ```
 schematics .:ui-actions --sourcepath=src/pages --debug=false
 ```
+
+
+# Generate Const File
+
+Generate a file with constants under specified namespace.
+
+
+### RUN
+```
+schematics @softwarepioniere/schematics:generate-const --targetpath=folder/ --namespace=BlaEntityTypes --constants=ConstString1,ConstString2.value1,ConstString2.value2 --debug=false
+
+RESULT
+File folder/bla-entity-types.constants.ts with content:
+
+export namespace BlaEntityTypes {
+    export const CONSTSTRING1 = 'ConstString1';
+    export const CONSTSTRING2_VALUE1 = 'ConstString2.value2';
+    export const CONSTSTRING2_VALUE2 = 'ConstString2.value2';
+    }
+```
+
+### RUN DEV
+```
+schematics .:generate-const --targetpath=folder/ --namespace=BlaEntityTypes --constants=ConstString1,ConstString2.value1,ConstString2.value2 --debug=false
+
+RESULT
+File folder/bla-entity-types.constants.ts with content:
+
+export namespace BlaEntityTypes {
+    export const CONSTSTRING1 = 'ConstString1';
+    export const CONSTSTRING2_VALUE1 = 'ConstString2.value2';
+    export const CONSTSTRING2_VALUE2 = 'ConstString2.value2';
+    }
+```

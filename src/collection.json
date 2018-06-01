@@ -44,6 +44,12 @@
       "description": "Generate index.ts file in targetpath with all files from sourcepath",
       "schema": "./generate-index/schema.json"
     },
+    "generate-const": {
+      "aliases": [ "generateconst" ],
+      "factory": "./generate-const",
+      "description": "Generate const form array",
+      "schema": "./generate-const/schema.json"
+    },
     "ui-actions": {
       "aliases": [ "uiactions" ],
       "factory": "./ui-actions",

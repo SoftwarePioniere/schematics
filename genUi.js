@@ -1,5 +1,5 @@
 var exec = require('child_process').exec;
-var targetpath = "pages/blub";
+var targetpath = "pages";
 var schematicCollection = "@softwarepioniere/schematics";
 
 

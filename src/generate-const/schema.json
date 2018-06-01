@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "generateconst",
+  "title": "Generate const form array",
+  "type": "object",
+  "properties": {
+    "index": {
+      "type": "number",
+      "default": 1
+    },
+    "targetpath": {
+      "type": "string"
+    },
+    "namespace": {
+      "type": "string"
+    },
+    "constants": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "targetpath",
+    "namespace",
+    "constants"
+  ]
+}
