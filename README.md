@@ -224,7 +224,7 @@ swagger-sources.json
 
 ### RUN
 ```
-node node_modules/@softwarepioniere/schematics/gen.js
+node node_modules/@softwarepioniere/schematics/gen.js @softwarepioniere/schematics swagger-sources.json
 ```
 
 ### RUN DEV

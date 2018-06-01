@@ -5,12 +5,16 @@ var targetpath = "ngrx-client";
 var clientFilesToGenerate = new Array();
 var isDev = false;
 var schematicCollection = "@softwarepioniere/schematics";
+var sourceConfig = "swagger-sources.json";
 
 
 // ARGV
 var x = process.argv.slice(2);
 if(x.length>0){
     schematicCollection = x[0];
+}
+if(x.length>1){
+    sourceConfig = x[1];
 }
 
 function generateIndex(targetpath, clientname, cnt) {
@@ -272,7 +276,7 @@ function generateClient(clientname, url) {
 
 
 function readSwaggerSources() {
-    var file = fs.readFile('swagger-sources.json', "utf8", function (err, data) {
+    var file = fs.readFile(sourceConfig, "utf8", function (err, data) {
         if (err) throw err;
 
         var clients = JSON.parse(data);
