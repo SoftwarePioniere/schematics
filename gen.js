@@ -75,13 +75,14 @@ function generateClient(clientname, url) {
                         }
                         for (param in api.paths[variable].get.parameters) {
                             if (api.paths[variable].get.parameters[param].in == 'path') {
-                                var param = api.paths[variable].get.parameters[param].name + ':' + api.paths[variable].get.parameters[param].type;
+                                let param = api.paths[variable].get.parameters[param].name + ':' + api.paths[variable].get.parameters[param].type;
 
                                 let result = param.split('[');
                                 if (result.length > 1) {
-                                    requestParams.push(result[0]);
+                                    let paramString = result[0] + result[1].substr(0,result[1].length - 1);
+                                    requestParams.push(paramString);
                                     if (isDev) {
-                                        console.log(result[0] + ' (PATH)');
+                                        console.log(paramString + ' (PATH)');
                                     }
                                 } else {
                                     requestParams.push(param);
@@ -105,9 +106,10 @@ function generateClient(clientname, url) {
 
                                 let result = type.split('[');
                                 if (result.length > 1) {
-                                    responseParams.push(result[0]);
+                                    let paramString = result[0] + result[1].substr(0,result[1].length - 1);
+                                    responseParams.push(paramString);
                                     if (isDev) {
-                                        console.log(result);
+                                        console.log(paramString);
                                     }
                                 } else {
                                     responseParams.push(type);
@@ -120,9 +122,10 @@ function generateClient(clientname, url) {
                                 var ref = api.paths[variable].get.responses[param].schema.$ref.replace('#/definitions/', '');
                                 let result = ref.split('[');
                                 if (result.length > 1) {
-                                    responseParams.push(result[0]);
+                                    let paramString = result[0] + result[1].substr(0,result[1].length - 1);
+                                    responseParams.push(paramString);
                                     if (isDev) {
-                                        console.log(result);
+                                        console.log(paramString);
                                     }
                                 } else {
                                     responseParams.push(ref);
@@ -188,9 +191,10 @@ function generateClient(clientname, url) {
                                 var param = api.paths[variable].post.parameters[param].name + ':' + api.paths[variable].post.parameters[param].type;
                                 let result = param.split('[');
                                 if (result.length > 1) {
-                                    requestParams.push(result[0]);
+                                    let paramString = result[0] + result[1].substr(0,result[1].length - 1);
+                                    requestParams.push(paramString);
                                     if (isDev) {
-                                        console.log(result[0] + ' (PATH)');
+                                        console.log(paramString + ' (PATH)');
                                     }
                                 } else {
                                     requestParams.push(param);
@@ -204,9 +208,10 @@ function generateClient(clientname, url) {
                                 var param = api.paths[variable].post.parameters[param].schema.$ref.replace('#/definitions/', '');
                                 let result = param.split('[');
                                 if (result.length > 1) {
-                                    requestParams.push(result[0]);
+                                    let paramString = result[0] + result[1].substr(0,result[1].length - 1);
+                                    requestParams.push(paramString);
                                     if (isDev) {
-                                        console.log(result[0] + ' (BODY)');
+                                        console.log(paramString + ' (BODY)');
                                     }
                                 } else {
                                     requestParams.push(param);
