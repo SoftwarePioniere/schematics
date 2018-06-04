@@ -13,5 +13,5 @@ export class <%= x.action %>Action implements Action {
 <% } %>
 
 export type Actions =
-<% for(const x of fileContent.actions) { %><% if(fileContent.actions[0]!=x){ %>| <% } %><%= x.page %>Action
+<% for(const x of fileContent.actions) { %><% if(fileContent.actions[0]!=x){ %>| <% } %><%= x.action %>Action
     <% } %>;

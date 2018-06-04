@@ -168,7 +168,9 @@ To publish, simply do:
 git add .
 git commit -m "clean up"
 git push
+! Version hochsetzen per npm: !
 npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
+! oder manuell in der package.json !
 npm run build
 npm publish
 ```
@@ -266,7 +268,7 @@ node gen.js .
 ````
 
 ### RUN
-search for all actions.ui.json and generate actions for it
+search for all actions-ui.json and generate actions for it
 ```
 node node_modules/@softwarepioniere/schematics/genUi.js
 ```

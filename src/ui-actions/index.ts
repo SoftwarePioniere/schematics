@@ -7,7 +7,8 @@ import {
     template,
     url,
     apply,
-    mergeWith
+    mergeWith,
+    MergeStrategy
 } from '@angular-devkit/schematics';
 import {strings} from "@angular-devkit/core";
 
@@ -28,7 +29,7 @@ function gen(options: any, src: FileEntry): Rule {
             targetpath: targetPath,
             fileContent: fileContent
         })
-    ]));
+    ]),MergeStrategy.AllowOverwriteConflict);
     return rule;
 }
 
