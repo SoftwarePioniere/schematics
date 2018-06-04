@@ -1,9 +1,9 @@
 import {Action} from '@ngrx/store';
 <% if (apiIsUsed !='') {%> import * as api from '<%= importpath %>clients/<%= clientname %>'; <% } %>
 
-export const <%= underscore(classify(methodWithoutType)).toUpperCase() %> = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> Gastrochecks';
-export const <%= underscore(classify(methodWithoutType)).toUpperCase() %>_ERFOLGREICH = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> erfolgreich Gastrochecks';
-export const <%= underscore(classify(methodWithoutType)).toUpperCase() %>_FEHLER = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> Fehler Gastrochecks';
+export const <%= underscore(classify(methodWithoutType)).toUpperCase() %> = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> laden';
+export const <%= underscore(classify(methodWithoutType)).toUpperCase() %>_ERFOLGREICH = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> laden erfolgreich';
+export const <%= underscore(classify(methodWithoutType)).toUpperCase() %>_FEHLER = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> Ladefehler';
 
 export class <%= classify(methodWithoutType) %>Action implements Action {
     readonly type = <%= underscore(classify(methodWithoutType)).toUpperCase() %>;
