@@ -75,7 +75,7 @@ function generateClient(clientname, url) {
                         }
                         for (param in api.paths[variable].get.parameters) {
                             if (api.paths[variable].get.parameters[param].in == 'path') {
-                                let param = api.paths[variable].get.parameters[param].name + ':' + api.paths[variable].get.parameters[param].type;
+                                var param = api.paths[variable].get.parameters[param].name + ':' + api.paths[variable].get.parameters[param].type;
 
                                 let result = param.split('[');
                                 if (result.length > 1) {
