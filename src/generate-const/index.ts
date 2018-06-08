@@ -4,13 +4,29 @@ import {
     chain,
     mergeWith,
     template,
-    url,
+    url
 } from '@angular-devkit/schematics';
-import { strings } from '@angular-devkit/core';
+import {strings} from '@angular-devkit/core';
 
+interface constant {
+    name: string,
+    value: string
+}
 
 export default function (options: any): Rule {
-    let constants = options.constants.split(',');
+    // let constants = options.constants.split(',');
+    let constants: any = [];
+    let tmp = options.constants.split(',');
+    tmp.forEach(function (x:any) {
+        let constString = x.split(':');
+        if(constString.length>1){
+            // name and value is set
+            constants.push(<constant>{name: strings.underscore(constString[0]).toUpperCase().replace(/\./gi,'_'), value: constString[1]})
+        }else{
+            // only value is set
+            constants.push(<constant>{name: strings.underscore(constString[0]).toUpperCase().replace(/\./gi,'_'), value: constString[0]})
+        }
+    });
 
 
     return chain([

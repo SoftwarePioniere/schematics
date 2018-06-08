@@ -308,14 +308,14 @@ export namespace BlaEntityTypes {
 
 ### RUN DEV
 ```
-schematics .:generate-const --targetpath=folder/ --namespace=BlaEntityTypes --constants=ConstString1,ConstString2.value1,ConstString2.value2 --debug=false
+schematics .:generate-const --targetpath=folder/ --namespace=BlaEntityTypes --constants=ConstName1:ConstString1,ConstName2:ConstString2.value1,ConstName3:ConstString2.value2 --debug=false
 
 RESULT
 File folder/bla-entity-types.constants.ts with content:
 
 export namespace BlaEntityTypes {
-    export const CONSTSTRING1 = 'ConstString1';
-    export const CONSTSTRING2_VALUE1 = 'ConstString2.value2';
-    export const CONSTSTRING2_VALUE2 = 'ConstString2.value2';
+    export const CONST_NAME1 = 'ConstString1';
+    export const CONST_NAME2 = 'ConstString2.value2';
+    export const CONST_NAME3 = 'ConstString2.value2';
     }
 ```
