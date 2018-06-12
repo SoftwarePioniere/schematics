@@ -1,26 +1,26 @@
 import {Action} from '@ngrx/store';
 <% if (apiIsUsed !='') {%> import * as api from '<%= importpath %>clients/<%= clientname %>'; <% } %>
 
-export const <%= underscore(classify(methodWithoutType)).toUpperCase() %> = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> laden';
-export const <%= underscore(classify(methodWithoutType)).toUpperCase() %>_ERFOLGREICH = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> laden erfolgreich';
-export const <%= underscore(classify(methodWithoutType)).toUpperCase() %>_FEHLER = '[<%= classify(clientname) %>Modul] <%= classify(methodWithoutType) %> Ladefehler';
+export const <%= underscore(classify(method)).toUpperCase() %> = '[<%= classify(clientname) %>Modul] <%= classify(method) %> laden';
+export const <%= underscore(classify(method)).toUpperCase() %>_ERFOLGREICH = '[<%= classify(clientname) %>Modul] <%= classify(method) %> laden erfolgreich';
+export const <%= underscore(classify(method)).toUpperCase() %>_FEHLER = '[<%= classify(clientname) %>Modul] <%= classify(method) %> Ladefehler';
 
-export class <%= classify(methodWithoutType) %>Action implements Action {
-    readonly type = <%= underscore(classify(methodWithoutType)).toUpperCase() %>;
+export class <%= classify(method) %>Action implements Action {
+    readonly type = <%= underscore(classify(method)).toUpperCase() %>;
     constructor(<%= requestparams %>) {}
     }
-export class <%= classify(methodWithoutType) %>ErfolgreichAction implements Action {
-    readonly type = <%= underscore(classify(methodWithoutType)).toUpperCase() %>_ERFOLGREICH;
+export class <%= classify(method) %>ErfolgreichAction implements Action {
+    readonly type = <%= underscore(classify(method)).toUpperCase() %>_ERFOLGREICH;
     constructor(<%= responseparams %><% if (responseparams!='' && requestparams !='') {%>, <% } %><%= requestparams %>) {}
     }
-export class <%= classify(methodWithoutType) %>FehlerAction implements Action {
-    readonly type = <%= underscore(classify(methodWithoutType)).toUpperCase() %>_FEHLER;
+export class <%= classify(method) %>FehlerAction implements Action {
+    readonly type = <%= underscore(classify(method)).toUpperCase() %>_FEHLER;
     constructor(public payload: any<% if (requestparams !='') {%>, <% } %><%= requestparams %>) {}
     }
 
 
 export type <%= classify(clientname) %><%= classify(actiontype) %><%= classify(methodWithoutType) %>Actions =
-    <%= classify(methodWithoutType) %>Action
-    | <%= classify(methodWithoutType) %>ErfolgreichAction
-    | <%= classify(methodWithoutType) %>FehlerAction
+    <%= classify(method) %>Action
+    | <%= classify(method) %>ErfolgreichAction
+    | <%= classify(method) %>FehlerAction
     ;
