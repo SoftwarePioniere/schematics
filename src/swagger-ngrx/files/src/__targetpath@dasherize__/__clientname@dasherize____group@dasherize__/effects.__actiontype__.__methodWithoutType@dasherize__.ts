@@ -18,9 +18,9 @@ import { CommunicationService } from '<%= importpath %>sopi/providers/communicat
 @Injectable()
 export class <%= classify(clientname) %>Modul<%= classify(methodWithoutType) %><%= classify(methodWithoutType) %>Effects  {
 @Effect()
-    <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$
-        .ofType(ac.<%= underscore(classify(methodWithoutType)).toUpperCase() %>)
-        .switchMap((x: ac.<%= classify(method) %>Action) => {
+    <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
+        ofType(ac.<%= underscore(classify(method)).toUpperCase() %>)
+        ,switchMap((x: ac.<%= classify(method) %>Action) => {
             return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                 .map((result:any) => {
                     this._communicationService.requestSucceded(result,<% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>);
@@ -29,8 +29,9 @@ export class <%= classify(clientname) %>Modul<%= classify(methodWithoutType) %><
                 .catch((error:any) => {
                     this._communicationService.requestError(error<% if (requestparamsVariableNamesSucceed !='') {%>, <% } %><%= requestparamsVariableNamesSucceed %>);
                     return of(new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>));
-                })
-        });
+                });
+    })
+);
 
     constructor(
         private actions$: Actions,
