@@ -20,15 +20,15 @@ export class <%= classify(clientname) %>Modul<%= classify(methodWithoutType) %><
 @Effect()
     <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$
         .ofType(ac.<%= underscore(classify(methodWithoutType)).toUpperCase() %>)
-        .switchMap((x: ac.<%= classify(methodWithoutType) %>Action) => {
+        .switchMap((x: ac.<%= classify(method) %>Action) => {
             return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                 .map((result:any) => {
                     this._communicationService.requestSucceded(result,<% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>);
-                    return new ac.<%= classify(methodWithoutType) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>);
+                    return new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>);
                 })
                 .catch((error:any) => {
                     this._communicationService.requestError(error<% if (requestparamsVariableNamesSucceed !='') {%>, <% } %><%= requestparamsVariableNamesSucceed %>);
-                    return of(new ac.<%= classify(methodWithoutType) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>));
+                    return of(new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>));
                 })
         });
 
