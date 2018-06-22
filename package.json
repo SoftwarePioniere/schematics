@@ -1,6 +1,6 @@
 {
   "name": "@softwarepioniere/schematics",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -24,6 +24,7 @@
     "@types/jasmine": "^2.8.8",
     "@types/node": "^10.3.2",
     "jasmine": "^3.1.0",
+    "rimraf": "^2.6.2",
     "typescript": "^2.9.1"
   },
   "repository": {

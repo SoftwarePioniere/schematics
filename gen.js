@@ -1,5 +1,6 @@
 var exec = require('child_process').exec;
 var fs = require('fs');
+var rimraf = require('rimraf');
 var request = require('request');
 var targetpath = "client-ngrx";
 var clientFilesToGenerate = new Array();
@@ -313,7 +314,7 @@ function build() {
 
 function removeTargetpath() {
     console.log("Delete folder " + targetpath + "...");
-    exec('rm -rf src/' + targetpath, function (error, stdout, stderr) {
+    rimraf('src/' + targetpath, function (error, stdout, stderr) {
         if (error) {
             console.log(error + '... failed! 💩')
         } else {
