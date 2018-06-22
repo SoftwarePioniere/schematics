@@ -206,26 +206,29 @@ function generateClient(clientname, url) {
 
                             }
                             if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'body') {
-                                var param = api.paths[variable].post.parameters[param].schema.$ref.replace('#/definitions/', '');
-                                let result = param.split('[');
-                                if (result.length > 1) {
-                                    let paramString = result[0] + result[1].substr(0,result[1].length - 1);
-                                    requestParams.push(paramString);
-                                    if (isDev) {
-                                        console.log(paramString + ' (BODY)');
-                                    }
-                                } else {
-                                    requestParams.push(param);
+                                if(api.paths[variable].post.parameters[param].schema.$ref != undefined){
+                                    var param = api.paths[variable].post.parameters[param].schema.$ref.replace('#/definitions/', '');
+                                    let result = param.split('[');
+                                    if (result.length > 1) {
+                                        let paramString = result[0] + result[1].substr(0,result[1].length - 1);
+                                        requestParams.push(paramString);
+                                        if (isDev) {
+                                            console.log(paramString + ' (BODY)');
+                                        }
+                                    } else {
+                                        requestParams.push(param);
 
-                                    if (isDev) {
-                                        console.log(param + ' (BODY)');
+                                        if (isDev) {
+                                            console.log(param + ' (BODY)');
+                                        }
                                     }
+                                }else{
+                                    // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
+                                    requestParams.push(api.paths[variable].post.parameters[param].schema);
+                                    console.log(api.paths[variable]);
                                 }
-
                             }
                         }
-
-
                     }
                     // RESPONSE
                     if (isDev) {
