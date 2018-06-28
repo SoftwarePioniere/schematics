@@ -14,7 +14,7 @@ if(x.length>1){
 
 function generateUiActions(targetpath, postfix) {
     if (targetpath) {
-        console.log('Start search uiActionFiles (*' + postfix + ' .json) in path:  ' + targetpath );
+        console.log('Start search uiActionFiles (*' + postfix + '.json) in path:  ' + targetpath );
         exec('schematics ' + schematicCollection + ':generate-actions --sourcepath=' + targetpath + ' --postfix=' + postfix + ' --debug=false', function (error, stdout, stderr) {
             if(stdout){
                 console.info(stdout + '... ' + targetpath + ' done! 💪\n');
@@ -43,7 +43,7 @@ function build(targetpath) {
             }
         });
     }else{
-        generateUiActions(targetpath);
+        generateUiActions(targetpath,'-ui');
     }
 }
 
