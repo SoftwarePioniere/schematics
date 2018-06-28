@@ -50,11 +50,11 @@
       "description": "Generate const form array",
       "schema": "./generate-const/schema.json"
     },
-    "ui-actions": {
-      "aliases": [ "uiactions" ],
-      "factory": "./ui-actions",
-      "description": "Generate actions for ui",
-      "schema": "./ui-actions/schema.json"
+    "generate-actions": {
+      "aliases": [ "generateactions" ],
+      "factory": "./generate-actions",
+      "description": "Generate actions for all json files with 'postfix'",
+      "schema": "./generate-actions/schema.json"
     }
   }
 }

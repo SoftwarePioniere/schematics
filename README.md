@@ -274,16 +274,16 @@ node node_modules/@softwarepioniere/schematics/genUi.js
 ```
 or generate actions for a single page with
 ```
-schematics @softwarepioniere/schematics:ui-actions --sourcepath=src/pages --debug=false
+schematics @softwarepioniere/schematics:generate-actions --sourcepath=src/pages --postfix=-ui --debug=false
 ```
 
 ### RUN DEV
 ```
-node genUi.js .
+node genActions.js .
 ```
 or
 ```
-schematics .:ui-actions --sourcepath=src/pages --debug=false
+schematics .:generate-actions --sourcepath=src/pages --postfix=-ui --debug=false
 ```
 
 

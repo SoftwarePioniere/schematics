@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "uiactions",
-  "title": "Generate actions for ui",
+  "id": "generateactions",
+  "title": "Generate actions for all json files with 'postfix'",
   "type": "object",
   "properties": {
     "index": {
@@ -10,9 +10,13 @@
     },
     "sourcepath": {
       "type": "string"
+    },
+    "postfix": {
+      "type": "string"
     }
   },
   "required": [
-    "sourcepath"
+    "sourcepath",
+    "postfix"
   ]
 }

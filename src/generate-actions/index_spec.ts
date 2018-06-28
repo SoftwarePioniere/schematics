@@ -7,16 +7,16 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 
-describe('ui-action', () => {
+describe('generate-action', () => {
   it('requires required option', () => {
     // We test that
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    expect(() => runner.runSchematic('ui-action', {}, Tree.empty())).toThrow();
+    expect(() => runner.runSchematic('generate-action', {}, Tree.empty())).toThrow();
   });
 
   it('ui-action', () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('ui-action', { targetpath: 'str'}, Tree.empty());
+    const tree = runner.runSchematic('generate-action', { targetpath: 'str'}, Tree.empty());
 
     // Listing files
     expect(tree.files.sort()).toEqual(['/allo', '/hola', '/page', '/page1']);

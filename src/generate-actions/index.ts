@@ -17,6 +17,7 @@ function gen(options: any, src: FileEntry): Rule {
     var fileContent = JSON.parse(src.content.toString());
     var filePath = src.path.split('/');
     var targetPath = src.path.replace(filePath[filePath.length - 1], '');
+    var postfix = options.postfix.replace('-','');
 
     rule = mergeWith(apply(url('./files'), [
         template({
@@ -27,7 +28,8 @@ function gen(options: any, src: FileEntry): Rule {
 
             INDEX: options.index,
             targetpath: targetPath,
-            fileContent: fileContent
+            fileContent: fileContent,
+            postfix: postfix
         })
     ]),MergeStrategy.AllowOverwriteConflict);
     return rule;
@@ -40,7 +42,7 @@ export default function (options: any): Rule {
             tree.getDir(options.sourcepath).visit((_, filePath) => {
                 if (filePath != null) {
 
-                    if (!filePath.path.endsWith('-ui.json')) {
+                    if (!filePath.path.endsWith(options.postfix + '.json')) {
                         return;
                     }
 
