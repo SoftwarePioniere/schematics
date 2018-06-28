@@ -8,6 +8,8 @@ var isDev = false;
 var schematicCollection = "@softwarepioniere/schematics";
 var sourceConfig = "swagger-sources.json";
 
+var xurl = process.env.xurl;
+console.log(':: xurl:', xurl);
 
 // ARGV
 var x = process.argv.slice(2);
@@ -39,6 +41,9 @@ function generateIndex(targetpath, clientname, cnt) {
 }
 
 function generateClient(clientname, url) {
+
+    url = url.replace('{{XURL}}', xurl);
+
     request.get(url, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             var api = JSON.parse(body);
