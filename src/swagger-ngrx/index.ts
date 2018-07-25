@@ -13,6 +13,7 @@ export default function (options: any): Rule {
     let actions: Array<any> = [];
     let requestparams: string = '';
     let responseparams: string = '';
+    let optPayload: string = ''; // Um beim normalen Request auch noch das komplette Objekt mitgeben zu können
     let requestparamsVariableNames: string = '';
     let responseparamsVariableNames: string = '';
     let requestparamsVariableNamesSucceed: string = '';
@@ -41,6 +42,7 @@ export default function (options: any): Rule {
 
     if (options.requestparams) {
         requestparams = parseParams(options.requestparams);
+        optPayload = 'public optPayload: any = null';
     }
     if (options.responseparams) {
         responseparams = parseParams(options.responseparams);
@@ -69,6 +71,7 @@ export default function (options: any): Rule {
             methodWithoutType: methodWithoutType,
             requestparams: requestparams,
             responseparams: responseparams,
+            optPayload: optPayload,
             requestparamsVariableNames: requestparamsVariableNames,
             requestparamsVariableNamesSucceed: requestparamsVariableNamesSucceed,
             responseparamsVariableNames: responseparamsVariableNames,
@@ -95,11 +98,11 @@ export function parseParams(params: string) {
         } else {
             // Model
             if (paramArray[param] == 'string' || paramArray[param] == 'number') {
-                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ':' + paramArray[param]);
+                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': ' + paramArray[param]);
             } else if (paramArray[param] != 'array') {
-                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ':api.' + paramArray[param]);
+                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': api.' + paramArray[param]);
             } else {
-                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ':Array<any>');
+                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': Array<any>');
             }
 
         }

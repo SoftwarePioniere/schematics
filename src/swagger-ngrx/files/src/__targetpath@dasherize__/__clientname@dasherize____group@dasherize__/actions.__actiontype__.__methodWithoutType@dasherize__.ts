@@ -7,15 +7,15 @@ export const <%= underscore(classify(method)).toUpperCase() %>_FEHLER = '[<%= cl
 
 export class <%= classify(method) %>Action implements Action {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>;
-    constructor(<%= requestparams %>) {}
+    constructor(<%= requestparams %><% if (requestparams !='') {%>, <% } %><%= optPayload %>) {}
     }
 export class <%= classify(method) %>ErfolgreichAction implements Action {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>_ERFOLGREICH;
-    constructor(<%= responseparams %><% if (responseparams!='' && requestparams !='') {%>, <% } %><%= requestparams %>) {}
+    constructor(<%= responseparams %><% if (responseparams!='' && requestparams !='') {%>, <% } %><%= requestparams %><% if (responseparams !='') {%>, <% } %><%= optPayload %>) {}
     }
 export class <%= classify(method) %>FehlerAction implements Action {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>_FEHLER;
-    constructor(public payload: any<% if (requestparams !='') {%>, <% } %><%= requestparams %>) {}
+    constructor(public payload: any<% if (requestparams !='') {%>, <% } %><%= requestparams %>, <%= optPayload %>) {}
     }
 
 
