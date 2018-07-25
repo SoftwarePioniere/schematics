@@ -24,7 +24,7 @@ export class <%= classify(clientname) %>Modul<%= classify(methodWithoutType) %><
             switchMap((x: ac.<%= classify(method) %>Action) => {
                 return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
-                        this._communicationService.requestSucceded(result,<% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>, x.optPayload);
+                        this._communicationService.requestSucceded(result, <% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>, x.optPayload);
                         return new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, x.optPayload);
                     })
                     .catch((error: any) => {

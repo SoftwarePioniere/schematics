@@ -42,7 +42,6 @@ export default function (options: any): Rule {
 
     if (options.requestparams) {
         requestparams = parseParams(options.requestparams);
-        optPayload = 'public optPayload: any = null';
     }
     if (options.responseparams) {
         responseparams = parseParams(options.responseparams);
@@ -56,6 +55,7 @@ export default function (options: any): Rule {
         responseparamsVariableNames = parseParamsToVariableNames(options.responseparams);
     }
 
+    optPayload = 'public optPayload: any = null';
     apiIsUsed = apiUsed(requestparams,responseparams);
 
     actions.push(mergeWith(apply(url('./files'), [
