@@ -97,7 +97,7 @@ export function parseParams(params: string) {
             result.push('public ' + paramArray[param]);
         } else {
             // Model
-            if (paramArray[param] == 'string' || paramArray[param] == 'number') {
+            if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date') {
                 result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': ' + paramArray[param]);
             } else if (paramArray[param] != 'array') {
                 result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': api.' + paramArray[param]);
@@ -112,7 +112,7 @@ export function parseParams(params: string) {
 
 export function parseParamsToVariableNames(params: string) {
     let result: Array<string> = [];
-    let paramArray = params.split(',');
+    let paramArray = params.replace(/\?/gi, '').split(',');
     for (let param in paramArray) {
         let paramValueArray = paramArray[param].split(':');
         if (paramValueArray.length > 1) {

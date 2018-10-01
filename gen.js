@@ -72,23 +72,44 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                     console.log('****** REQUEST PARAMS ******');
                 }
                 for (param in api.paths[variable].get.parameters) {
+                    // Change integer => number
+                    let valType = (api.paths[variable].get.parameters[param].type == 'integer') ? 'number' : api.paths[variable].get.parameters[param].type;
                     if (api.paths[variable].get.parameters[param].in == 'path') {
-                        let param1 = api.paths[variable].get.parameters[param].name + ':' + api.paths[variable].get.parameters[param].type;
+                        let required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
+                        let defaultValue = (api.paths[variable].get.parameters[param].default !== undefined) ? " = " + api.paths[variable].get.parameters[param].default : "";
+                        let param1 = api.paths[variable].get.parameters[param].name + required + ': ' + valType + defaultValue;
 
                         let result = param1.split('[');
                         if (result.length > 1) {
                             let paramString = result[0] + result[1].substr(0, result[1].length - 1);
                             requestParams.push(paramString);
                             if (isDev) {
-                                console.log(paramString + ' (PATH)');
+                                console.log(paramString + ' (in path)');
                             }
                         } else {
                             requestParams.push(param1);
                             if (isDev) {
-                                console.log(param1 + ' (PATH)');
+                                console.log(param1 + ' (in path)');
                             }
                         }
+                    } else if (api.paths[variable].get.parameters[param].in == 'query') {
+                        let required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
+                        let defaultValue = (api.paths[variable].get.parameters[param].default !== undefined) ? " = " + api.paths[variable].get.parameters[param].default : "";
+                        let param1 = api.paths[variable].get.parameters[param].name + required + ': ' + valType + defaultValue;
 
+                        let result = param1.split('[');
+                        if (result.length > 1) {
+                            let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                            requestParams.push(paramString);
+                            if (isDev) {
+                                console.log(paramString + ' (in query)');
+                            }
+                        } else {
+                            requestParams.push(param1);
+                            if (isDev) {
+                                console.log(param1 + ' (in path)');
+                            }
+                        }
                     }
                 }
             }
