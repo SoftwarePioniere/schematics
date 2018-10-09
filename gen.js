@@ -74,19 +74,28 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                 for (param in api.paths[variable].get.parameters) {
                     // Change integer => number
                     let valType = (api.paths[variable].get.parameters[param].type == 'integer') ? 'number' : api.paths[variable].get.parameters[param].type;
+                    valType = (valType == 'string' && api.paths[variable].get.parameters[param].format == 'date-time') ? 'Date' : valType;
                     if (api.paths[variable].get.parameters[param].in == 'path') {
                         let required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
                         let defaultValue = (api.paths[variable].get.parameters[param].default !== undefined) ? " = " + api.paths[variable].get.parameters[param].default : "";
-                        let param1 = api.paths[variable].get.parameters[param].name + required + ': ' + valType + defaultValue;
+                        let param1 = api.paths[variable].get.parameters[param].name + required + ':' + valType + defaultValue;
 
                         let result = param1.split('[');
                         if (result.length > 1) {
                             let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                            if(paramString.endsWith('= '))
+                            {
+                                paramString += null;
+                            }
                             requestParams.push(paramString);
                             if (isDev) {
                                 console.log(paramString + ' (in path)');
                             }
                         } else {
+                            if(param1.endsWith('= '))
+                            {
+                                param1 += null;
+                            }
                             requestParams.push(param1);
                             if (isDev) {
                                 console.log(param1 + ' (in path)');
@@ -95,16 +104,24 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                     } else if (api.paths[variable].get.parameters[param].in == 'query') {
                         let required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
                         let defaultValue = (api.paths[variable].get.parameters[param].default !== undefined) ? " = " + api.paths[variable].get.parameters[param].default : "";
-                        let param1 = api.paths[variable].get.parameters[param].name + required + ': ' + valType + defaultValue;
+                        let param1 = api.paths[variable].get.parameters[param].name + required + ':' + valType + defaultValue;
 
                         let result = param1.split('[');
                         if (result.length > 1) {
                             let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                            if(paramString.endsWith('= '))
+                            {
+                                paramString += null;
+                            }
                             requestParams.push(paramString);
                             if (isDev) {
                                 console.log(paramString + ' (in query)');
                             }
                         } else {
+                            if(param1.endsWith('= '))
+                            {
+                                param1 += null;
+                            }
                             requestParams.push(param1);
                             if (isDev) {
                                 console.log(param1 + ' (in path)');
@@ -126,11 +143,19 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                         let result = type.split('[');
                         if (result.length > 1) {
                             let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                            if(paramString.endsWith('= '))
+                            {
+                                paramString += null;
+                            }
                             responseParams.push(paramString);
                             if (isDev) {
                                 console.log(paramString);
                             }
                         } else {
+                            if(type.endsWith('= '))
+                            {
+                                type += null;
+                            }
                             responseParams.push(type);
                             if (isDev) {
                                 console.log(type);
@@ -142,11 +167,19 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                         let result = ref.split('[');
                         if (result.length > 1) {
                             let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                            if(paramString.endsWith('= '))
+                            {
+                                paramString += null;
+                            }
                             responseParams.push(paramString);
                             if (isDev) {
                                 console.log(paramString);
                             }
                         } else {
+                            if(ref.endsWith('= '))
+                            {
+                                ref += null;
+                            }
                             responseParams.push(ref);
                             if (isDev) {
                                 console.log(ref);
@@ -159,7 +192,7 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
 
             // RUN SCHEMATICS
             if (isDev) {
-                console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=query --debug=false');
+                console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '" --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype=query --debug=false');
             }
 
             let x = {
@@ -271,7 +304,7 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
 
             // RUN SCHEMATICS
             if (isDev) {
-                console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + '  --group=' + group + ' --actiontype=command --debug=false');
+                console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '"  --group="' + group + '" --actiontype=command --debug=false');
             }
 
             let x = {
@@ -306,10 +339,10 @@ function schematicsExec(parms, i, total, cb) {
 
     // RUN SCHEMATICS
     if (isDev) {
-        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=' + actiontype + ' --debug=false');
+        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '" --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '" --debug=false');
     }
 
-    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=' + actiontype + '  --debug=false', function (error, stdout, stderr) {
+    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype=' + actiontype + '  --debug=false', function (error, stdout, stderr) {
         if (stdout) {
             console.info(stdout + '... done! 💪\n');
         }
@@ -352,10 +385,10 @@ function schematicsExecAgain(parms, i, total, cb) {
 
     // RUN SCHEMATICS
     if (isDev) {
-        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + ' --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=' + actiontype + ' --debug=false');
+        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '" --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '" --debug=false');
     }
 
-    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname=' + clientname + '  --method=' + method + ' --service=' + group + ' --requestparams=' + requestParams.join(',') + '  --responseparams=' + responseParams.join(',') + ' --targetpath=' + targetpath + ' --group=' + group + ' --actiontype=' + actiontype + '  --debug=false', function (error, stdout, stderr) {
+    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '"  --debug=false', function (error, stdout, stderr) {
         if (stdout) {
             console.info(stdout + '... done! 💪\n');
         }
