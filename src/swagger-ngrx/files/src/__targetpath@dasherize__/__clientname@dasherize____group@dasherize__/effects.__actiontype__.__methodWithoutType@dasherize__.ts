@@ -17,7 +17,7 @@ import { CommunicationService } from '<%= importpath %>sopi/providers/communicat
 
 
 @Injectable()
-export class <%= classify(clientname) %>Modul<%= classify(methodWithoutType) %><%= classify(methodWithoutType) %>Effects  {
+export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
     @Effect()
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
