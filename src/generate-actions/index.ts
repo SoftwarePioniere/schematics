@@ -24,7 +24,7 @@ function gen(options: any, src: FileEntry): Rule {
     var filename = filePath[filePath.length - 1].replace(options.postfix, newPostfix);
     var filenameSplit = filename.split('.');
     // xxx.ui.json => xxx.ui
-    var newFilename = filename.replace(filenameSplit[filenameSplit.length -1], '');
+    var newFilename = filename.replace('.' + filenameSplit[filenameSplit.length -1], '');
     rule = mergeWith(apply(url('./files'), [
         template({
             classify: strings.classify,
