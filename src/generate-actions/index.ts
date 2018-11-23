@@ -17,8 +17,14 @@ function gen(options: any, src: FileEntry): Rule {
     var fileContent = JSON.parse(src.content.toString());
     var filePath = src.path.split('/');
     var targetPath = src.path.replace(filePath[filePath.length - 1], '');
-    var postfix = options.postfix.replace('-','');
 
+    //-ui -actions => .ui .actions
+    var newPostfix = options.postfix.replace('-','.');
+    // xxx-ui.json => xxx.ui.json
+    var filename = filePath[filePath.length - 1].replace(options.postfix, newPostfix);
+    var filenameSplit = filename.split('.');
+    // xxx.ui.json => xxx.ui
+    var newFilename = filename.replace(filenameSplit[filenameSplit.length -1], '');
     rule = mergeWith(apply(url('./files'), [
         template({
             classify: strings.classify,
@@ -29,7 +35,7 @@ function gen(options: any, src: FileEntry): Rule {
             INDEX: options.index,
             targetpath: targetPath,
             fileContent: fileContent,
-            postfix: postfix
+            filename: newFilename
         })
     ]),MergeStrategy.AllowOverwriteConflict);
     return rule;
