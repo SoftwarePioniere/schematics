@@ -1,5 +1,6 @@
 var exec = require('child_process').exec;
 var targetpath = "pages";
+var postfix = "-ui";
 var schematicCollection = "@softwarepioniere/schematics";
 
 
@@ -9,7 +10,10 @@ if(x.length>0){
     targetpath = x[0];
 }
 if(x.length>1){
-    schematicCollection = x[1];
+    postfix = x[1];
+}
+if(x.length>2){
+    schematicCollection = x[2];
 }
 
 function generateUiActions(targetpath, postfix) {
@@ -31,7 +35,11 @@ function generateUiActions(targetpath, postfix) {
     }
 }
 
-function build(targetpath) {
+function build(targetpath, postfix) {
+    console.log('targetpath:', targetpath);
+    console.log('postfix:', postfix);
+    console.log('schematicCollection:', schematicCollection);
+
     if(schematicCollection == "."){
         console.log("running build...");
         exec('npm run build', function (error, stdout, stderr) {
@@ -39,12 +47,12 @@ function build(targetpath) {
                 console.log(error + '...failed! 💩\n');
             } else {
                 console.log("... build finished! 💪\n");
-                generateUiActions(targetpath,'-ui');
+                generateUiActions(targetpath, postfix);
             }
         });
     }else{
-        generateUiActions(targetpath,'-ui');
+        generateUiActions(targetpath, postfix);
     }
 }
 
-build(targetpath);
+build(targetpath, postfix);

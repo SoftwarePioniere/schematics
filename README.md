@@ -279,7 +279,7 @@ schematics @softwarepioniere/schematics:generate-actions --sourcepath=src/pages 
 
 ### RUN DEV
 ```
-node genActions.js .
+node genActions.js -ui .
 ```
 or
 ```
