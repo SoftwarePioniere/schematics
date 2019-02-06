@@ -22,18 +22,18 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
             filter((x: ac.GetTourFahrzeugNaechsteAction) => {
-                return this.requestStackService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= method.toUpperCase() %>, RequestType.Anfrage);
+                return this.requestStackService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
             switchMap((x: ac.<%= classify(method) %>Action) => {
                 return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
                         this._communicationService.requestSucceded(result, <% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>, x.optPayload);
-                        this.requestStackService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= method.toUpperCase() %>, RequestType.Erfolgreich);
+                        this.requestStackService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich);
                         return new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, x.optPayload);
                     })
                     .catch((error: any) => {
                         this._communicationService.requestError(error<% if (requestparamsVariableNamesSucceed !='') {%>, <% } %><%= requestparamsVariableNamesSucceed %>, x.optPayload);
-                        this.requestStackService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= method.toUpperCase() %>, RequestType.Fehler, error);
+                        this.requestStackService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, error);
                         return of(new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, x.optPayload));
                     });
         })
