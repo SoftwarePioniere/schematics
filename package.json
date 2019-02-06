@@ -1,6 +1,6 @@
 {
   "name": "@softwarepioniere/schematics",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "description": "",
   "scripts": {
     "build": "tsc -p tsconfig.json",

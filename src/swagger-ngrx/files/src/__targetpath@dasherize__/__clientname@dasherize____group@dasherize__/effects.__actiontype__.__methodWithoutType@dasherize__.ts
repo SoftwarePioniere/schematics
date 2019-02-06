@@ -21,7 +21,7 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
     @Effect()
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
-            filter((x: ac.GetTourFahrzeugNaechsteAction) => {
+            filter((x: ac.<%= classify(method) %>Action) => {
                 return this.requestStackService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
             switchMap((x: ac.<%= classify(method) %>Action) => {
