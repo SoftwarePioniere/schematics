@@ -14,7 +14,9 @@ import {filter, switchMap} from 'rxjs/operators';
 import * as ac from './actions.<%= actiontype %>.<%= dasherize(methodWithoutType) %>';
 import * as api from '<%= importpath %>clients/<%= clientname %>';
 import { CommunicationService } from '<%= importpath %>sopi/providers/communication.service';
-import {RequestMethod, RequestStackService, RequestType} from '<%= importpath %>sopi/providers/request-stack.service';
+
+import {RequestStackService} from '<%= importpath %>sopi/ngrx-client-manager/request-stack.service';
+import {RequestMethod, RequestType} from '<%= importpath %>sopi/ngrx-client-manager/model';
 
 @Injectable()
 export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
