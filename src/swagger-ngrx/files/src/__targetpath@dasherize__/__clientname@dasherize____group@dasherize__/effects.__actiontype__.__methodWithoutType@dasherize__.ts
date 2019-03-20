@@ -15,8 +15,7 @@ import * as ac from './actions.<%= actiontype %>.<%= dasherize(methodWithoutType
 import * as api from '<%= importpath %>clients/<%= clientname %>';
 import { CommunicationService } from '<%= importpath %>sopi/providers/communication.service';
 
-import {RequestStackService} from '<%= importpath %>sopi/ngrx-client-manager/request-stack.service';
-import {RequestMethod, RequestType} from '<%= importpath %>sopi/ngrx-client-manager/model';
+import {RequestMethod, RequestType, NgrxManagerService} from '@softwarepioniere/ngrx-manager';
 
 @Injectable()
 export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
@@ -24,19 +23,19 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
             filter((x: ac.<%= classify(method) %>Action) => {
-                return this.requestStackService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
+                return this.ngrxManagerService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
             switchMap((x: ac.<%= classify(method) %>Action) => {
                 return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
                         this._communicationService.requestSucceded(result, <% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>, x.optPayload);
-                        this.requestStackService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich);
+                        this.ngrxManagerService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich);
                         return new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, x.optPayload);
                     })
                     .catch((error: any) => {
                         console.log(error);
                         this._communicationService.requestError(error<% if (requestparamsVariableNamesSucceed !='') {%>, <% } %><%= requestparamsVariableNamesSucceed %>, x.optPayload);
-                        this.requestStackService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, error);
+                        this.ngrxManagerService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, error);
                         return of(new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, x.optPayload));
                     });
         })
@@ -46,6 +45,6 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         private actions$: Actions,
         private _<%= camelize(classify(service)) %>Service: api.<%= classify(service) %>Service,
         private _communicationService: CommunicationService,
-        private requestStackService: RequestStackService) {
+        private ngrxManagerService: NgrxManagerService) {
     }
 }
