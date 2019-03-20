@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine **/*_spec.js",
-    "build:npmupdate": "git add . && git commit -m \"clean up\" && git push && npm version patch -m \"Release Patch Upgrade %s\" && git commit -m \"clean up\" && git push && npm run build && npm publish"
+    "build:npmupdate": "git add . && git commit -m \"clean up\" && git push && npm version patch -m \"Release Patch Upgrade %s\" && npm run build && npm publish"
   },
   "keywords": [
     "schematics"
