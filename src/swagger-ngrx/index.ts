@@ -125,7 +125,7 @@ export function parseParamsToVariableNames(params: string) {
 export function genrateIdentifierString(params: string) {
     let items = params.split(',');
 
-    return '\'' + items.join('\' + \'') + '\'';
+    return ' + ' + items.join(' + ');
 }
 
 export function parseParamsVariableNamesSucceed(params: string) {
