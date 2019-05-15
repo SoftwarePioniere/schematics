@@ -9,7 +9,7 @@ import {Effect, Actions, ofType} from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import {filter, map, switchMap} from 'rxjs/operators';
+import {filter, map, flatMap} from 'rxjs/operators';
 
 import * as ac from './actions.<%= actiontype %>.<%= dasherize(methodWithoutType) %>';
 import * as api from '<%= importpath %>clients/<%= clientname %>';
@@ -23,10 +23,10 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
             map((x: ac.<%= classify(method) %>Action) => {
-                return this.ngrxManagerService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
+                return this.ngrxManagerService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %> + <%= requestparamsVariableIdentifier %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
             filter(x => typeof x !== 'boolean'),
-            switchMap((x: ac.<%= classify(method) %>Action) => {
+            flatMap((x: ac.<%= classify(method) %>Action) => {
                 return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
                         this._communicationService.requestSucceded(result, <% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>, x.optPayload);

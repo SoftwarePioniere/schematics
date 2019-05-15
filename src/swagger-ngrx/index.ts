@@ -1,11 +1,4 @@
-import {
-    Rule,
-    apply,
-    chain,
-    mergeWith,
-    template,
-    url,
-} from '@angular-devkit/schematics';
+import {apply, chain, mergeWith, Rule, template, url,} from '@angular-devkit/schematics';
 import {strings} from '@angular-devkit/core';
 
 
@@ -15,6 +8,7 @@ export default function (options: any): Rule {
     let responseparams: string = '';
     let optPayload: string = ''; // Um beim normalen Request auch noch das komplette Objekt mitgeben zu können
     let requestparamsVariableNames: string = '';
+    let requestparamsVariableIdentifier: string = '';
     let responseparamsVariableNames: string = '';
     let requestparamsVariableNamesSucceed: string = '';
     let methodWithoutType: string = options.method.replace('Post', '').replace('Get', '');
@@ -22,16 +16,16 @@ export default function (options: any): Rule {
     let method = options.method.substr(0, 1).toLowerCase() + options.method.substr(1, options.method.length);
     let group = (options.group != undefined) ? '/' + options.group : '';
     let service = options.service;
-    let apiIsUsed:boolean;
+    let apiIsUsed: boolean;
 
     if (options.targetpath != "" && options.targetpath != undefined) {
         let folders = options.targetpath.match(/\//g);
-        if(folders!=null){
+        if (folders != null) {
             // mindestens ein Slash vorhanden
             for (let i = 0; i <= folders.length; i++) {
                 importpath += '../';
             }
-        }else{
+        } else {
             // Kein Slash vorhanden
             importpath += '../';
         }
@@ -50,13 +44,14 @@ export default function (options: any): Rule {
     if (options.requestparams) {
         requestparamsVariableNames = parseParamsToVariableNames(options.requestparams);
         requestparamsVariableNamesSucceed = parseParamsVariableNamesSucceed(requestparamsVariableNames);
+        requestparamsVariableIdentifier = genrateIdentifierString(requestparamsVariableNames);
     }
     if (options.responseparams) {
         responseparamsVariableNames = parseParamsToVariableNames(options.responseparams);
     }
 
     optPayload = 'public optPayload: any = null';
-    apiIsUsed = apiUsed(requestparams,responseparams);
+    apiIsUsed = apiUsed(requestparams, responseparams);
 
     actions.push(mergeWith(apply(url('./files'), [
         template({
@@ -72,6 +67,7 @@ export default function (options: any): Rule {
             requestparams: requestparams,
             responseparams: responseparams,
             optPayload: optPayload,
+            requestparamsVariableIdentifier: requestparamsVariableIdentifier,
             requestparamsVariableNames: requestparamsVariableNames,
             requestparamsVariableNamesSucceed: requestparamsVariableNamesSucceed,
             responseparamsVariableNames: responseparamsVariableNames,
@@ -126,6 +122,12 @@ export function parseParamsToVariableNames(params: string) {
     return result.join(',');
 }
 
+export function genrateIdentifierString(params: string) {
+    let items = params.split(',');
+
+    return '\'' + items.join('\' + \'') + '\'';
+}
+
 export function parseParamsVariableNamesSucceed(params: string) {
     let check = params.match(/,/g);
     if (check != null && check.length > 0) {
@@ -135,7 +137,7 @@ export function parseParamsVariableNamesSucceed(params: string) {
 }
 
 export function apiUsed(requestParams: string, responseParams: string) {
-    let checkString:string = (requestParams != null) ? requestParams : "";
+    let checkString: string = (requestParams != null) ? requestParams : "";
     checkString += (responseParams != null) ? responseParams : "";
     return (checkString.match(/api./g) != null);
 }
