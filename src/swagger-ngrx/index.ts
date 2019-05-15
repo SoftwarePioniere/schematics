@@ -44,7 +44,7 @@ export default function (options: any): Rule {
     if (options.requestparams) {
         requestparamsVariableNames = parseParamsToVariableNames(options.requestparams);
         requestparamsVariableNamesSucceed = parseParamsVariableNamesSucceed(requestparamsVariableNames);
-        requestparamsVariableIdentifier = genrateIdentifierString(requestparamsVariableNames);
+        requestparamsVariableIdentifier = genrateIdentifierString(options.requestparams);
     }
     if (options.responseparams) {
         responseparamsVariableNames = parseParamsToVariableNames(options.responseparams);
@@ -123,9 +123,25 @@ export function parseParamsToVariableNames(params: string) {
 }
 
 export function genrateIdentifierString(params: string) {
-    let items = params.split(',');
+    // let items = params.split(',');
 
-    return ' + ' + items.join(' + ').replace(/'/g, '');
+
+    let result: Array<string> = [];
+    let paramArray = params.replace(/\?/gi, '').split(',');
+    for (let param in paramArray) {
+        let paramValueArray = paramArray[param].split(':');
+        if (paramValueArray.length > 1) {
+            // variablename:type alles nur kein Date
+            if(paramArray[param].trim() !== 'Date') {
+                result.push('x.' + paramValueArray[0]);
+            }
+        } else {
+            // Model
+            result.push('x.' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length));
+        }
+    }
+
+    return ' + ' + result.join(' + ').replace(/'/g, '');
 }
 
 export function parseParamsVariableNamesSucceed(params: string) {
