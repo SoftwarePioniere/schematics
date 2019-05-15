@@ -23,7 +23,7 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
             map((x: ac.<%= classify(method) %>Action) => {
-                return this.ngrxManagerService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %> + <%= requestparamsVariableIdentifier.toString() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
+                return this.ngrxManagerService.callRequest(ac.<%= underscore(classify(method)).toUpperCase() %> <% if (actiontype.toUpperCase() == 'QUERY') %> + <%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
             filter(x => typeof x !== 'boolean'),
             flatMap((x: ac.<%= classify(method) %>Action) => {
