@@ -3,16 +3,14 @@
 echo "----------------------------------------";
 echo "--------- UPDATE NPM PACKAGE -----------";
 echo "----------------------------------------";
-echo "";
-echo "";
 
 git add .
 git commit -m "clean up"
 git push
 
-echo "------------ NEUES RELEASE ------------";
+echo "---------- NEUES PATCH RELEASE --------";
 echo "---------------------------------------";
-npm run release
+npm run release:patch
 
 PACKAGE_VERSION=$(node -p "require('./package.json').version")
 
