@@ -1,11 +1,15 @@
 {
   "name": "@softwarepioniere/schematics",
-  "version": "1.0.58",
+  "version": "1.0.60",
   "description": "",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine **/*_spec.js",
-    "build:npmupdate": "git add . && git commit -m \"clean up\" && git push && npm version patch -m \"Release Patch Upgrade %s\" && npm run build && npm publish"
+    "build:npmupdate": "git add . && git commit -m \"clean up\" && git push && npm version patch -m \"Release Patch Upgrade %s\" && npm run build && npm publish",
+    "release": "npm run release:patch",
+    "release:major": "npm version major -m \"Release Major Upgrade %s\"",
+    "release:minor": "npm version minor -m \"Release Minor Upgrade %s\"",
+    "release:patch": "npm version patch -m \"Release Patch Upgrade %s\""
   },
   "keywords": [
     "schematics"
