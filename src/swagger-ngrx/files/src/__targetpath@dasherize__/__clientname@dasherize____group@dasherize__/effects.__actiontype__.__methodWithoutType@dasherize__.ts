@@ -27,7 +27,7 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
             }),
             filter(x => typeof x !== 'boolean'),
             flatMap((x: ac.<%= classify(method) %>Action) => {
-                const optPayload = (x !== undefined && x!== null && x.optPayload !== undefined) ? x.optPayload : null;
+                const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
                 return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
                         this._communicationService.requestSucceded(result, <% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>, optPayload);
