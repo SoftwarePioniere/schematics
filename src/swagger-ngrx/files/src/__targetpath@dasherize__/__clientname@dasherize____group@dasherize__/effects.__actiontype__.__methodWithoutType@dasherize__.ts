@@ -13,7 +13,6 @@ import {filter, map, flatMap} from 'rxjs/operators';
 
 import * as ac from './actions.<%= actiontype %>.<%= dasherize(methodWithoutType) %>';
 import * as api from '<%= importpath %>clients/<%= clientname %>';
-import { CommunicationService } from '<%= importpath %>sopi/providers/communication.service';
 
 import {RequestMethod, RequestType, NgrxManagerService} from '@softwarepioniere/ngrx-manager';
 
@@ -30,14 +29,14 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
                 return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
-                        this._communicationService.requestSucceded(result, <% if (requestparamsVariableNamesSucceed !='') {%><%= requestparamsVariableNamesSucceed %><% }else{ %> null <% } %>, optPayload);
-                        this.ngrxManagerService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich);
-                        return new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        this.ngrxManagerService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich, nextAction);
+                        return nextAction;
                     })
                     .catch((error: any) => {
-                        this._communicationService.requestError(error<% if (requestparamsVariableNamesSucceed !='') {%>, <% } %><%= requestparamsVariableNamesSucceed %>, optPayload);
-                        this.ngrxManagerService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, error);
-                        return of(new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload));
+                        const nextAction = new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        this.ngrxManagerService.checkRequest(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, nextAction, error);
+                        return of(nextAction);
                     });
         })
     );
@@ -45,7 +44,6 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
     constructor(
         private actions$: Actions,
         private _<%= camelize(classify(service)) %>Service: api.<%= classify(service) %>Service,
-        private _communicationService: CommunicationService,
         private ngrxManagerService: NgrxManagerService) {
     }
 }
