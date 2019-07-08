@@ -22,7 +22,7 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
             map((x: ac.<%= classify(method) %>Action) => {
-                return this.ngrxManagerService.checkRequestCall(ac.<%= underscore(classify(method)).toUpperCase() %> <% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
+                return this.ngrxManagerService.checkRequestCall(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
             filter(x => typeof x !== 'boolean'),
             flatMap((x: ac.<%= classify(method) %>Action) => {
@@ -30,12 +30,12 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
                 return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
                         const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
-                        this.ngrxManagerService.checkRequestResult(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich, nextAction);
+                        this.ngrxManagerService.checkRequestResult(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich, nextAction);
                         return nextAction;
                     })
                     .catch((error: any) => {
                         const nextAction = new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
-                        this.ngrxManagerService.checkRequestResult(ac.<%= underscore(classify(method)).toUpperCase() %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, nextAction, error);
+                        this.ngrxManagerService.checkRequestResult(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, nextAction, error);
                         return of(nextAction);
                     });
         })
