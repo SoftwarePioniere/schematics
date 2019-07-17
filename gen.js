@@ -304,7 +304,7 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
 
             // RUN SCHEMATICS
             if (isDev) {
-                console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '"  --group="' + group + '" --actiontype=command --debug=false');
+                console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '"  --group="' + group + '" --actiontype=command --debug=false' );
             }
 
             let x = {
@@ -326,7 +326,7 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
 }
 
 
-function schematicsExec(parms, i, total, cb) {
+function schematicsExec(parms, i, total, cb, useNgrxManager = false) {
     console.log('schematicsExec', parms, i, total);
 
     let clientname = parms.clientname;
@@ -339,17 +339,17 @@ function schematicsExec(parms, i, total, cb) {
 
     // RUN SCHEMATICS
     if (isDev) {
-        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '" --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '" --debug=false');
+        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '" --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '" --debug=false --useNgrxManager=' + useNgrxManager.toString());
     }
 
-    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype=' + actiontype + '  --debug=false', function (error, stdout, stderr) {
+    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype=' + actiontype + '  --debug=false --useNgrxManager=' + useNgrxManager.toString(), function (error, stdout, stderr) {
         if (stdout) {
             console.info(stdout + '... done! 💪\n');
         }
 
         if (error) {
-            console.error(error + '...failed! 💩\n -- try Again -- fucky windows')
-            schematicsExecAgain(parms, i, total, cb);
+            console.error(error + '...failed! 💩\n -- try Again')
+            schematicsExecAgain(parms, i, total, cb, useNgrxManager);
         }
         else{
 
@@ -372,7 +372,7 @@ function schematicsExec(parms, i, total, cb) {
 }
 
 
-function schematicsExecAgain(parms, i, total, cb) {
+function schematicsExecAgain(parms, i, total, cb, useNgrxManager = false) {
     console.log('schematicsExec', parms, i, total);
 
     let clientname = parms.clientname;
@@ -385,10 +385,10 @@ function schematicsExecAgain(parms, i, total, cb) {
 
     // RUN SCHEMATICS
     if (isDev) {
-        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '" --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '" --debug=false');
+        console.log('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '" --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '" --debug=false --useNgrxManager=' + useNgrxManager.toString());
     }
 
-    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '"  --debug=false', function (error, stdout, stderr) {
+    exec('schematics ' + schematicCollection + ':swagger-ngrx --clientname="' + clientname + '"  --method="' + method + '" --service="' + group + '" --requestparams="' + requestParams.join(',').replace(/\?/g, '') + '"  --responseparams="' + responseParams.join(',').replace(/\?/g, '') + '" --targetpath="' + targetpath + '" --group="' + group + '" --actiontype="' + actiontype + '"  --debug=false --useNgrxManager=' + useNgrxManager.toString(), function (error, stdout, stderr) {
         if (stdout) {
             console.info(stdout + '... done! 💪\n');
         }
@@ -412,7 +412,7 @@ function schematicsExecAgain(parms, i, total, cb) {
 }
 
 
-function generateClient(clientname, url) {
+function generateClient(clientname, url, useNgrxManager) {
     console.log('generateClient', clientname, url);
     url = url.replace('{{XURL}}', xurl);
 
@@ -424,8 +424,8 @@ function generateClient(clientname, url) {
 
             let callbacks = new Array();
 
-            generatePostCallbacks(api, clientname, callbacks);
-            generateGetCallbacks(api, clientname, callbacks);
+            generatePostCallbacks(api, clientname, callbacks, useNgrxManager);
+            generateGetCallbacks(api, clientname, callbacks, useNgrxManager);
 
             let total = callbacks.length;
             console.log('total callbacks: ', total);
@@ -449,7 +449,7 @@ function generateClient(clientname, url) {
             let i = 1;
             callbacks.forEach(parms => {
                 console.log("durchgang", i, "/", total);
-                schematicsExec(parms, i, total, callFinished);
+                schematicsExec(parms, i, total, callFinished, useNgrxManager);
                 i++;
             });
         }
@@ -480,7 +480,7 @@ function readSwaggerSources() {
             makeDir(path).then(createdPath => {
                 console.log("... folder " + createdPath + " created! 💪");
 
-                generateClient(clientname, clients[client].url);
+                generateClient(clientname, clients[client].url, clients[client].useNgrxManager);
             });
 
 

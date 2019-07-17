@@ -8,6 +8,7 @@ import {filter, map, flatMap} from 'rxjs/operators';
 import * as ac from './actions.<%= actiontype %>.<%= dasherize(methodWithoutType) %>';
 import * as api from '<%= importpath %>clients/<%= clientname %>';
 
+<% if (useNgrxManager) {%>
 import {RequestMethod, RequestType, NgrxManagerService} from '@softwarepioniere/ngrx-manager';
 
 @Injectable()
@@ -40,4 +41,29 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         private _<%= camelize(classify(service)) %>Service: api.<%= classify(service) %>Service,
         private ngrxManagerService: NgrxManagerService) {
     }
+<% } else { %>
+    @Injectable()
+    export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
+        @Effect()
+            <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
+                ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
+                flatMap((x: ac.<%= classify(method) %>Action) => {
+                const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
+                return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
+                    .map((result: any) => {
+                        const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        return nextAction;
+                    })
+                    .catch((error: any) => {
+                        const nextAction = new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        return of(nextAction);
+                    });
+            })
+        );
+
+        constructor(
+            private actions$: Actions,
+            private _<%= camelize(classify(service)) %>Service: api.<%= classify(service) %>Service) {
+        }
+        <% } %>
 }

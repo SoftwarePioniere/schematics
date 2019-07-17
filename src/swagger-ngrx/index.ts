@@ -17,6 +17,7 @@ export default function (options: any): Rule {
     let group = (options.group != undefined) ? '/' + options.group : '';
     let service = options.service;
     let apiIsUsed: boolean;
+    let useNgrxManager = (options.useNgrxManager != undefined && options.useNgrxManager == 'true') ? true : false;
 
     if (options.targetpath != "" && options.targetpath != undefined) {
         let folders = options.targetpath.match(/\//g);
@@ -76,7 +77,8 @@ export default function (options: any): Rule {
             actiontype: options.actiontype,
             group: group,
             service: service,
-            apiIsUsed: apiIsUsed
+            apiIsUsed: apiIsUsed,
+            useNgrxManager: useNgrxManager
         }),
     ])));
 
