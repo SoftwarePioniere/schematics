@@ -13,6 +13,15 @@ import {RequestMethod, RequestType, NgrxManagerService} from '@softwarepioniere/
 
 @Injectable()
 export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
+
+    private _service : api.<%= classify(service) %>Service = null;
+    private getService() : api.<%= classify(service) %>Service {
+            if (this._service === null) {
+                this._service = this.injector.get(api.<%= classify(service) %>Service);
+            }
+            return this._service;
+        }
+
     @Effect()
         <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
             ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
@@ -22,7 +31,7 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
             filter(x => typeof x !== 'boolean'),
             flatMap((x: ac.<%= classify(method) %>Action) => {
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
-                return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
+                return this.getService().<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
                         const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich, nextAction);
@@ -38,18 +47,27 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
 
     constructor(
         private actions$: Actions,
-        private _<%= camelize(classify(service)) %>Service: api.<%= classify(service) %>Service,
+        private injector: Injector,
         private ngrxManagerService: NgrxManagerService) {
     }
 <% } else { %>
     @Injectable()
     export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
+
+        private _service : api.<%= classify(service) %>Service = null;
+        private getService() : api.<%= classify(service) %>Service {
+                if (this._service === null) {
+                    this._service = this.injector.get(api.<%= classify(service) %>Service);
+                }
+                return this._service;
+            }
+
         @Effect()
             <%= classify(methodWithoutType) %>$: Observable<Action> = this.actions$.pipe(
                 ofType(ac.<%= underscore(classify(method)).toUpperCase() %>),
                 flatMap((x: ac.<%= classify(method) %>Action) => {
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
-                return this._<%= camelize(classify(service)) %>Service.<%= method %>(<%= requestparamsVariableNames %>)
+                return this.getService().<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
                         const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
                         return nextAction;
@@ -63,7 +81,7 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
 
         constructor(
             private actions$: Actions,
-            private _<%= camelize(classify(service)) %>Service: api.<%= classify(service) %>Service) {
+            private injector: Injector) {
         }
         <% } %>
 }
