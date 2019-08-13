@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import {Effect, Actions, ofType} from '@ngrx/effects';
+import { Injectable, Injector } from '@angular/core';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import {filter, map, flatMap} from 'rxjs/operators';
+import { flatMap } from 'rxjs/operators';
 
 import * as ac from './actions.<%= actiontype %>.<%= dasherize(methodWithoutType) %>';
 import * as api from '<%= importpath %>clients/<%= clientname %>';
@@ -14,12 +14,12 @@ import {RequestMethod, RequestType, NgrxManagerService} from '@softwarepioniere/
 @Injectable()
 export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
 
-    private _service : api.<%= classify(service) %>Service = null;
+    private service : api.<%= classify(service) %>Service = null;
     private getService() : api.<%= classify(service) %>Service {
-            if (this._service === null) {
-                this._service = this.injector.get(api.<%= classify(service) %>Service);
+            if (this.service === null) {
+                this.service = this.injector.get(api.<%= classify(service) %>Service);
             }
-            return this._service;
+            return this.service;
         }
 
     @Effect()
@@ -54,12 +54,12 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
     @Injectable()
     export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
 
-        private _service : api.<%= classify(service) %>Service = null;
+        private service : api.<%= classify(service) %>Service = null;
         private getService() : api.<%= classify(service) %>Service {
-                if (this._service === null) {
-                    this._service = this.injector.get(api.<%= classify(service) %>Service);
+                if (this.service === null) {
+                    this.service = this.injector.get(api.<%= classify(service) %>Service);
                 }
-                return this._service;
+                return this.service;
             }
 
         @Effect()
