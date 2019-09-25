@@ -14,7 +14,7 @@ export class <%= classify(method) %>Action implements NgrxManagerAction {
     }
 export class <%= classify(method) %>ErfolgreichAction implements NgrxManagerAction {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>_ERFOLGREICH;
-    constructor(<%= responseparams %><% if (responseparams!='' && requestparams !='') {%>, <% } %><%= requestparams %><% if (responseparams !='') {%>, <% } %><%= optPayload %>, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor(<%= responseparams %><% if (responseparams!='') {%>, <% } %><%= requestparams %><% if (requestparams !='') {%>, <% } %><%= optPayload %>, public ngrxManager: NgrxManagerConfig = null) {}
     }
 export class <%= classify(method) %>FehlerAction implements NgrxManagerAction {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>_FEHLER;
@@ -29,7 +29,7 @@ export class <%= classify(method) %>Action implements Action {
     }
 export class <%= classify(method) %>ErfolgreichAction implements Action {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>_ERFOLGREICH;
-        constructor(<%= responseparams %><% if (responseparams!='' && requestparams !='') {%>, <% } %><%= requestparams %><% if (responseparams !='') {%>, <% } %><%= optPayload %>) {}
+        constructor(<%= responseparams %><% if (responseparams!='') {%>, <% } %><%= requestparams %><% if (requestparams !='') {%>, <% } %><%= optPayload %>) {}
     }
 export class <%= classify(method) %>FehlerAction implements Action {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>_FEHLER;

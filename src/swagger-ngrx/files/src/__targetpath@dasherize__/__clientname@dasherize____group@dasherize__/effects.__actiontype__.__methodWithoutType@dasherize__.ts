@@ -33,12 +33,12 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
                 return this.getService().<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
-                        const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %><% if (requestparamsVariableNames!='') {%>, <% } %> optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Erfolgreich, nextAction);
                         return nextAction;
                     })
                     .catch((error: any) => {
-                        const nextAction = new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        const nextAction = new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %><% if (requestparamsVariableNames!='') {%>, <% } %> optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Fehler, nextAction, error);
                         return of(nextAction);
                     });
@@ -69,11 +69,11 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
                 return this.getService().<%= method %>(<%= requestparamsVariableNames %>)
                     .map((result: any) => {
-                        const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (requestparamsVariableNames !='' && responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        const nextAction = new ac.<%= classify(method) %>ErfolgreichAction(<% if(responseparamsVariableNames!='') {%>result<% } %><% if (responseparamsVariableNames!='') {%>, <% } %><%= requestparamsVariableNames %><% if (requestparamsVariableNames!='') {%>, <% } %> optPayload);
                         return nextAction;
                     })
                     .catch((error: any) => {
-                        const nextAction = new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %>, optPayload);
+                        const nextAction = new ac.<%= classify(method) %>FehlerAction(error<% if (requestparamsVariableNames !='') {%>, <% } %><%= requestparamsVariableNames %><% if (requestparamsVariableNames!='') {%>, <% } %> optPayload);
                         return of(nextAction);
                     });
             })
