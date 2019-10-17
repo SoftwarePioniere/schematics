@@ -1,8 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import * as ac from './actions.<%= actiontype %>.<%= dasherize(methodWithoutType) %>';
