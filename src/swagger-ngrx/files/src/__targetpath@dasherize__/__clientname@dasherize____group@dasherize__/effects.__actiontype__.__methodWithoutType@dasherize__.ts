@@ -10,7 +10,7 @@ import * as api from '<%= importpath %>clients/<%= clientname %>';
 import {RequestMethod, RequestType, NgrxManagerService} from '@softwarepioniere/ngrx-manager';
 
 @Injectable()
-export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
+export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects {
 
     @Effect()
         <%= classify(methodWithoutType) %>$ = this.actions$.pipe(
@@ -36,24 +36,23 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
         })
     );
 
-    private service : api.<%= classify(service) %>Service = null;
+    private service: api.<%= classify(service) %>Service = null;
 
     constructor(
         private actions$: Actions,
         private injector: Injector,
         private ngrxManagerService: NgrxManagerService) {
     }
+
+    private getService(): api.<%= classify(service) %>Service {
+            if (this.service === null) {
+                this.service = this.injector.get(api.<%= classify(service) %>Service);
+            }
+            return this.service;
+        }
 <% } else { %>
     @Injectable()
-    export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects  {
-
-        private service : api.<%= classify(service) %>Service = null;
-        private getService() : api.<%= classify(service) %>Service {
-                if (this.service === null) {
-                    this.service = this.injector.get(api.<%= classify(service) %>Service);
-                }
-                return this.service;
-            }
+    export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effects {
 
         @Effect()
             <%= classify(methodWithoutType) %>$ = this.actions$.pipe(
@@ -73,19 +72,18 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
             })
         );
 
-        private service : api.<%= classify(service) %>Service = null;
+        private service: api.<%= classify(service) %>Service = null;
 
         constructor(
             private actions$: Actions,
             private injector: Injector) {
         }
-        <% } %>
 
-
-    private getService() : api.<%= classify(service) %>Service {
-            if (this.service === null) {
-                this.service = this.injector.get(api.<%= classify(service) %>Service);
+        private getService(): api.<%= classify(service) %>Service {
+                if (this.service === null) {
+                    this.service = this.injector.get(api.<%= classify(service) %>Service);
+                }
+                return this.service;
             }
-            return this.service;
-        }
+        <% } %>
 }
