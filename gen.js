@@ -238,6 +238,7 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                     console.log('****** REQUEST PARAMS ******');
                 }
                 for (param in api.paths[variable].post.parameters) {
+                    // PARAMS IN: path
                     if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'path') {
                         let param1 = api.paths[variable].post.parameters[param].name + ':' + api.paths[variable].post.parameters[param].type;
                         let result = param1.split('[');
@@ -255,6 +256,8 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                         }
 
                     }
+
+                    // PARAMS IN: body
                     if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'body') {
                         if (api.paths[variable].post.parameters[param].schema.$ref != undefined) {
                             let param1 = api.paths[variable].post.parameters[param].schema.$ref.replace('#/definitions/', '');
@@ -276,6 +279,66 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                             // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
                             requestParams.push(api.paths[variable].post.parameters[param].schema);
                             console.log(api.paths[variable]);
+                        }
+                    }
+
+                    // PARAMS IN: formData
+                    if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'formData') {
+                        if (api.paths[variable].post.parameters[param].schema && api.paths[variable].post.parameters[param].schema.$ref != undefined) {
+                            let param1 = api.paths[variable].post.parameters[param].schema.$ref.replace('#/definitions/', '');
+                            let result = param1.split('[');
+                            if (result.length > 1) {
+                                let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                                requestParams.push(paramString);
+                                if (isDev) {
+                                    console.log(paramString + ' (formData)');
+                                }
+                            } else {
+                                requestParams.push(param1);
+
+                                if (isDev) {
+                                    console.log(param1 + ' (formData)');
+                                }
+                            }
+                        } else if(api.paths[variable].post.parameters[param].type) {
+                            // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
+                            if(api.paths[variable].post.parameters[param].type == 'file'){
+                                requestParams.push('Blob');
+                                console.log(api.paths[variable]);
+                            } else {
+                                requestParams.push(api.paths[variable].post.parameters[param].type);
+                                console.log(api.paths[variable]);
+                            }
+                        }
+                    }
+
+                    // PARAMS IN: header
+                    if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'header') {
+                        if (api.paths[variable].post.parameters[param].schema && api.paths[variable].post.parameters[param].schema.$ref != undefined) {
+                            let param1 = api.paths[variable].post.parameters[param].schema.$ref.replace('#/definitions/', '');
+                            let result = param1.split('[');
+                            if (result.length > 1) {
+                                let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                                requestParams.push(paramString);
+                                if (isDev) {
+                                    console.log(paramString + ' (header)');
+                                }
+                            } else {
+                                requestParams.push(param1);
+
+                                if (isDev) {
+                                    console.log(param1 + ' (header)');
+                                }
+                            }
+                        } else if(api.paths[variable].post.parameters[param].type) {
+                            // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
+                            if(api.paths[variable].post.parameters[param].type == 'file'){
+                                requestParams.push('Blob');
+                                console.log(api.paths[variable]);
+                            } else {
+                                requestParams.push(api.paths[variable].post.parameters[param].type);
+                                console.log(api.paths[variable]);
+                            }
                         }
                     }
                 }

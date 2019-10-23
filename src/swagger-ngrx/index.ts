@@ -95,7 +95,7 @@ export function parseParams(params: string) {
             result.push('public ' + paramArray[param]);
         } else {
             // Model
-            if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date') {
+            if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date' || paramArray[param].trim() == 'Blob') {
                 result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': ' + paramArray[param]);
             } else if (paramArray[param] != 'array') {
                 result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': api.' + paramArray[param]);
