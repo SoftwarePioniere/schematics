@@ -105,7 +105,7 @@ export function parseParams(params: string) {
 
         }
     }
-    return result.join(',');
+    return result.join(', ');
 }
 
 export function parseParamsToVariableNames(params: string) {
@@ -121,7 +121,7 @@ export function parseParamsToVariableNames(params: string) {
             result.push('x.' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length));
         }
     }
-    return result.join(',');
+    return result.join(', ');
 }
 
 export function genrateIdentifierString(params: string) {
