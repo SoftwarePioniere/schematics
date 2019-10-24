@@ -14,7 +14,7 @@ export class GetTemplatesConstantsAction implements NgrxManagerAction {
     }
 export class GetTemplatesConstantsErfolgreichAction implements NgrxManagerAction {
     readonly type = GET_TEMPLATES_CONSTANTS_ERFOLGREICH;
-    constructor(public string: string, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor(public stringPayload: string, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
 export class GetTemplatesConstantsFehlerAction implements NgrxManagerAction {
     readonly type = GET_TEMPLATES_CONSTANTS_FEHLER;

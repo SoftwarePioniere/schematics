@@ -21,14 +21,14 @@ export class OrgaappDokumentUploadEffects {
             filter(x => typeof x !== 'boolean'),
             flatMap((x: ac.PostDokumentUploadAction) => {
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
-                return this.getService().postDokumentUpload(x.blob).pipe(
+                return this.getService().postDokumentUpload(x.file).pipe(
                     map((result: any) => {
-                        const nextAction = new ac.PostDokumentUploadErfolgreichAction(result, x.blob,  optPayload);
+                        const nextAction = new ac.PostDokumentUploadErfolgreichAction(result, x.file,  optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.POST_DOKUMENT_UPLOAD, x, RequestMethod.COMMAND, RequestType.Erfolgreich, nextAction);
                         return nextAction;
                     }),
                     catchError((error: any) => {
-                        const nextAction = new ac.PostDokumentUploadFehlerAction(error, x.blob,  optPayload);
+                        const nextAction = new ac.PostDokumentUploadFehlerAction(error, x.file,  optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.POST_DOKUMENT_UPLOAD, x, RequestMethod.COMMAND, RequestType.Fehler, nextAction, error);
                         return of(nextAction);
                     })

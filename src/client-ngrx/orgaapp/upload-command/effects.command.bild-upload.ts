@@ -21,14 +21,14 @@ export class OrgaappBildUploadEffects {
             filter(x => typeof x !== 'boolean'),
             flatMap((x: ac.PostBildUploadAction) => {
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
-                return this.getService().postBildUpload(x.blob,x.string,x.string).pipe(
+                return this.getService().postBildUpload(x.file, x.xHeight, x.xWidth).pipe(
                     map((result: any) => {
-                        const nextAction = new ac.PostBildUploadErfolgreichAction(result, x.blob,x.string,x.string,  optPayload);
+                        const nextAction = new ac.PostBildUploadErfolgreichAction(result, x.file, x.xHeight, x.xWidth,  optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.POST_BILD_UPLOAD, x, RequestMethod.COMMAND, RequestType.Erfolgreich, nextAction);
                         return nextAction;
                     }),
                     catchError((error: any) => {
-                        const nextAction = new ac.PostBildUploadFehlerAction(error, x.blob,x.string,x.string,  optPayload);
+                        const nextAction = new ac.PostBildUploadFehlerAction(error, x.file, x.xHeight, x.xWidth,  optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.POST_BILD_UPLOAD, x, RequestMethod.COMMAND, RequestType.Fehler, nextAction, error);
                         return of(nextAction);
                     })

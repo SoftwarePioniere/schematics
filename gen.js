@@ -8,6 +8,7 @@ let isDev = false;
 let schematicCollection = "@softwarepioniere/schematics";
 let sourceConfig = "swagger-sources.json";
 
+
 let xurl = process.env.xurl;
 console.log(':: xurl:', xurl);
 
@@ -40,7 +41,7 @@ const generateIndex = function (targetpath, clientname) {
         }
     });
 
-}
+};
 
 const generateGetCallbacks = function (api, clientname, callbacks) {
     console.log('generateGetCallbacks', clientname);
@@ -65,6 +66,7 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
             let group = api.paths[variable].get.tags[0];
 
             if (api.paths[variable].get.parameters != undefined) {
+
                 if (isDev) {
                     console.log('\n' + variable);
 
@@ -72,11 +74,14 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                     console.log('****** REQUEST PARAMS ******');
                 }
                 for (param in api.paths[variable].get.parameters) {
+                    const varName = (api.paths[variable].get.parameters[param] != undefined && api.paths[variable].get.parameters[param].name != undefined) ? api.paths[variable].get.parameters[param].name + ':' : '';
+                    let required = (api.paths[variable].get.parameters[param].required) ? ":" : "?:";
+
                     // Change integer => number
                     let valType = (api.paths[variable].get.parameters[param].type == 'integer') ? 'number' : api.paths[variable].get.parameters[param].type;
                     valType = (valType == 'string' && api.paths[variable].get.parameters[param].format == 'date-time') ? 'Date' : valType;
                     if (api.paths[variable].get.parameters[param].in == 'path') {
-                        let required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
+                        required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
                         let defaultValue = (api.paths[variable].get.parameters[param].default !== undefined) ? " = " + api.paths[variable].get.parameters[param].default : "";
                         let param1 = api.paths[variable].get.parameters[param].name + required + ':' + valType + defaultValue;
 
@@ -102,7 +107,7 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                             }
                         }
                     } else if (api.paths[variable].get.parameters[param].in == 'query') {
-                        let required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
+                        required = (api.paths[variable].get.parameters[param].required) ? "" : "?";
                         let defaultValue = (api.paths[variable].get.parameters[param].default !== undefined) ? " = " + api.paths[variable].get.parameters[param].default : "";
                         let param1 = api.paths[variable].get.parameters[param].name + required + ':' + valType + defaultValue;
 
@@ -125,6 +130,64 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                             requestParams.push(param1);
                             if (isDev) {
                                 console.log(param1 + ' (in path)');
+                            }
+                        }
+                    } else
+                    // PARAMS IN: formData
+                    if (api.paths[variable].get.parameters[param] != undefined && api.paths[variable].get.parameters[param].in == 'formData') {
+                        if (api.paths[variable].get.parameters[param].schema && api.paths[variable].get.parameters[param].schema.$ref != undefined) {
+                            let param1 = api.paths[variable].get.parameters[param].schema.$ref.replace('#/definitions/', '');
+                            let result = param1.split('[');
+                            if (result.length > 1) {
+                                let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                                requestParams.push(paramString);
+                                if (isDev) {
+                                    console.log(paramString + ' (formData)');
+                                }
+                            } else {
+                                requestParams.push(param1);
+
+                                if (isDev) {
+                                    console.log(param1 + ' (formData)');
+                                }
+                            }
+                        } else if(api.paths[variable].get.parameters[param].type) {
+                            // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
+                            if(api.paths[variable].get.parameters[param].type == 'file'){
+                                requestParams.push(varName + required + 'Blob');
+                                console.log(api.paths[variable]);
+                            } else {
+                                requestParams.push(varName + required + api.paths[variable].get.parameters[param].type);
+                                console.log(api.paths[variable]);
+                            }
+                        }
+                    } else
+                    // PARAMS IN: header
+                    if (api.paths[variable].get.parameters[param] != undefined && api.paths[variable].get.parameters[param].in == 'header') {
+                        if (api.paths[variable].get.parameters[param].schema && api.paths[variable].get.parameters[param].schema.$ref != undefined) {
+                            let param1 = api.paths[variable].get.parameters[param].schema.$ref.replace('#/definitions/', '');
+                            let result = param1.split('[');
+                            if (result.length > 1) {
+                                let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                                requestParams.push(paramString);
+                                if (isDev) {
+                                    console.log(paramString + ' (header)');
+                                }
+                            } else {
+                                requestParams.push(param1);
+
+                                if (isDev) {
+                                    console.log(param1 + ' (header)');
+                                }
+                            }
+                        } else if(api.paths[variable].get.parameters[param].type) {
+                            // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
+                            if(api.paths[variable].get.parameters[param].type == 'file'){
+                                requestParams.push(varName + required + 'Blob');
+                                console.log(api.paths[variable]);
+                            } else {
+                                requestParams.push(varName + required + api.paths[variable].get.parameters[param].type);
+                                console.log(api.paths[variable]);
                             }
                         }
                     }
@@ -209,7 +272,7 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
 
         }
     }
-}
+};
 
 const generatePostCallbacks = function (api, clientname, callbacks) {
     console.log('generatePost', clientname);
@@ -238,6 +301,9 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                     console.log('****** REQUEST PARAMS ******');
                 }
                 for (param in api.paths[variable].post.parameters) {
+                    const varName = (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].name != undefined) ? api.paths[variable].post.parameters[param].name : '';
+                    const required = (api.paths[variable].post.parameters[param].required) ? ":" : "?:";
+
                     // PARAMS IN: path
                     if (api.paths[variable].post.parameters[param] != undefined && api.paths[variable].post.parameters[param].in == 'path') {
                         let param1 = api.paths[variable].post.parameters[param].name + ':' + api.paths[variable].post.parameters[param].type;
@@ -254,7 +320,6 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                                 console.log(param1 + ' (PATH)');
                             }
                         }
-
                     }
 
                     // PARAMS IN: body
@@ -276,9 +341,14 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                                 }
                             }
                         } else {
-                            // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
-                            requestParams.push(api.paths[variable].post.parameters[param].schema);
-                            console.log(api.paths[variable]);
+                            if(api.paths[variable].post.parameters[param].type == 'file'){
+                                requestParams.push(varName + required + 'Blob');
+                                console.log(api.paths[variable]);
+                            } else {
+                                // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
+                                requestParams.push(varName + required + api.paths[variable].post.parameters[param].schema);
+                                console.log(api.paths[variable]);
+                            }
                         }
                     }
 
@@ -303,10 +373,10 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                         } else if(api.paths[variable].post.parameters[param].type) {
                             // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
                             if(api.paths[variable].post.parameters[param].type == 'file'){
-                                requestParams.push('Blob');
+                                requestParams.push(varName + required + 'Blob');
                                 console.log(api.paths[variable]);
                             } else {
-                                requestParams.push(api.paths[variable].post.parameters[param].type);
+                                requestParams.push(varName + required + api.paths[variable].post.parameters[param].type);
                                 console.log(api.paths[variable]);
                             }
                         }
@@ -333,10 +403,10 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                         } else if(api.paths[variable].post.parameters[param].type) {
                             // keine Referenz zu einem Model vorhanden, evtl. ist es nur ein String oder ähnliches
                             if(api.paths[variable].post.parameters[param].type == 'file'){
-                                requestParams.push('Blob');
+                                requestParams.push(varName + required + 'Blob');
                                 console.log(api.paths[variable]);
                             } else {
-                                requestParams.push(api.paths[variable].post.parameters[param].type);
+                                requestParams.push(varName + required + api.paths[variable].post.parameters[param].type);
                                 console.log(api.paths[variable]);
                             }
                         }
@@ -355,7 +425,8 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                         if (isDev) {
                             console.log(type);
                         }
-                    } else if (api.paths[variable].post.responses[param].description == 'Success' && api.paths[variable].post.responses[param].schema != undefined && api.paths[variable].post.responses[param].schema.$ref != undefined) {
+                    }
+                    else if (api.paths[variable].post.responses[param].description == 'Success' && api.paths[variable].post.responses[param].schema != undefined && api.paths[variable].post.responses[param].schema.$ref != undefined) {
                         let ref = api.paths[variable].post.responses[param].schema.$ref.replace('#/definitions/', '');
                         responseParams.push(ref);
                         if (isDev) {
@@ -377,16 +448,14 @@ const generatePostCallbacks = function (api, clientname, callbacks) {
                 requestParams: requestParams,
                 responseParams: responseParams,
                 targetpath: targetpath,
-                group: group,
+                // group: group,
                 actiontype: 'command'
             };
 
             callbacks.push(x);
-
         }
-
     }
-}
+};
 
 
 function schematicsExec(parms, i, total, cb, useNgrxManager = false) {
@@ -427,8 +496,6 @@ function schematicsExec(parms, i, total, cb, useNgrxManager = false) {
             cb(error, "finished: " + clientname + ' / ' + method + ' / ' + group + '/' + actiontype );
 
         }
-
-
     });
 
     // cb();
@@ -507,7 +574,7 @@ function generateClient(clientname, url, useNgrxManager) {
                     console.log('alle finished');
                     generateIndex(targetpath, clientname);
                 }
-            }
+            };
 
             let i = 1;
             callbacks.forEach(parms => {
@@ -545,9 +612,6 @@ function readSwaggerSources() {
 
                 generateClient(clientname, clients[client].url, clients[client].useNgrxManager);
             });
-
-
-
         }
     });
 }
@@ -585,8 +649,6 @@ function removeTargetpath() {
 
                 build();
             });
-
-
         }
     });
 }

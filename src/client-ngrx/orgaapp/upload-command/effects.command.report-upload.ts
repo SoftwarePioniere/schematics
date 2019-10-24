@@ -21,14 +21,14 @@ export class OrgaappReportUploadEffects {
             filter(x => typeof x !== 'boolean'),
             flatMap((x: ac.PostReportUploadAction) => {
                 const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
-                return this.getService().postReportUpload(x.blob).pipe(
+                return this.getService().postReportUpload(x.file).pipe(
                     map((result: any) => {
-                        const nextAction = new ac.PostReportUploadErfolgreichAction(result, x.blob,  optPayload);
+                        const nextAction = new ac.PostReportUploadErfolgreichAction(result, x.file,  optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.POST_REPORT_UPLOAD, x, RequestMethod.COMMAND, RequestType.Erfolgreich, nextAction);
                         return nextAction;
                     }),
                     catchError((error: any) => {
-                        const nextAction = new ac.PostReportUploadFehlerAction(error, x.blob,  optPayload);
+                        const nextAction = new ac.PostReportUploadFehlerAction(error, x.file,  optPayload);
                         this.ngrxManagerService.checkRequestResult(ac.POST_REPORT_UPLOAD, x, RequestMethod.COMMAND, RequestType.Fehler, nextAction, error);
                         return of(nextAction);
                     })

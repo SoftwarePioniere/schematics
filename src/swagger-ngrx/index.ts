@@ -92,15 +92,15 @@ export function parseParams(params: string) {
         let paramValueArray = paramArray[param].split(':');
         if (paramValueArray.length > 1) {
             // variablename:type
-            result.push('public ' + paramArray[param]);
+            result.push(' public ' + parsePropertyName(paramValueArray[0]) + ':' + paramValueArray[1] + ' ');
         } else {
             // Model
             if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date' || paramArray[param].trim() == 'Blob') {
-                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': ' + paramArray[param]);
+                result.push('public ' + parsePropertyName(paramArray[param]) + ': ' + paramArray[param]);
             } else if (paramArray[param] != 'array') {
-                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': api.' + paramArray[param]);
+                result.push('public ' + parsePropertyName(paramArray[param]) + ': api.' + paramArray[param]);
             } else {
-                result.push('public ' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length) + ': Array<any>');
+                result.push('public ' + parsePropertyName(paramArray[param]) + ': Array<any>');
             }
 
         }
@@ -115,19 +115,16 @@ export function parseParamsToVariableNames(params: string) {
         let paramValueArray = paramArray[param].split(':');
         if (paramValueArray.length > 1) {
             // variablename:type
-            result.push('x.' + paramValueArray[0]);
+            result.push('x.' + parsePropertyName(paramValueArray[0]));
         } else {
             // Model
-            result.push('x.' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length));
+            result.push('x.' + parsePropertyName(paramArray[param]));
         }
     }
     return result.join(', ');
 }
 
 export function genrateIdentifierString(params: string) {
-    // let items = params.split(',');
-
-
     let result: Array<string> = [];
     let paramArray = params.replace(/\?/gi, '').split(',');
     for (let param in paramArray) {
@@ -135,11 +132,11 @@ export function genrateIdentifierString(params: string) {
         if (paramValueArray.length > 1) {
             // variablename:type alles nur kein Date
             if(paramArray[param].trim() !== 'Date') {
-                result.push('x.' + paramValueArray[0]);
+                result.push('x.' + parsePropertyName(paramValueArray[0]));
             }
         } else {
             // Model
-            result.push('x.' + paramArray[param].substr(0, 1).toLowerCase() + paramArray[param].substr(1, paramArray[param].length));
+            result.push('x.' + parsePropertyName(paramArray[param]));
         }
     }
 
@@ -158,4 +155,24 @@ export function apiUsed(requestParams: string, responseParams: string) {
     let checkString: string = (requestParams != null) ? requestParams : "";
     checkString += (responseParams != null) ? responseParams : "";
     return (checkString.match(/api./g) != null);
+}
+
+export function parsePropertyName(propertyName: string) {
+    let newPropertyName = propertyName.substr(0, 1).toLowerCase() + propertyName.substr(1, propertyName.length);
+    newPropertyName = newPropertyName.replace('-', '');
+    newPropertyName = newPropertyName.replace('_', '');
+
+    let nameBlacklist = [
+        // JavaScript Objects, Properties, and Methods
+        'Number', 'String', 'Array',
+        // 'Date', 'eval', 'function', 'hasOwnProperty', 'Infinity', 'isFinite', 'isNaN', 'isPrototypeOf', 'length', 'Math', 'NaN', 'name',  'Object', 'prototype',  'toString', 'undefined', 'valueOf',
+        // JavaScript Reserved Words
+        'abstract', 'arguments', 'await', 'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class', 'const', 'continue', 'debugger', 'default', 'delete', 'do', 'double', 'else', 'enum', 'eval', 'export', 'extends', 'false', 'final', 'finally', 'float', 'for', 'function', 'goto', 'if', 'implements', 'import', 'in', 'instanceof', 'int', 'interface', 'let', 'long', 'native', 'new', 'null', 'package', 'private', 'protected', 'public', 'return', 'short', 'static', 'super', 'switch', 'synchronized', 'this', 'throw', 'throws', 'transient', 'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while', 'with', 'yield'
+    ];
+    const searchResult = nameBlacklist.find(x => x.toLowerCase() === propertyName.toLowerCase());
+
+    if(searchResult){
+        return newPropertyName + 'Payload';
+    }
+    return newPropertyName;
 }

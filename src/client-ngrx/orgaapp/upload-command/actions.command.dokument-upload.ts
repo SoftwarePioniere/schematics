@@ -10,15 +10,15 @@ export const POST_DOKUMENT_UPLOAD_FEHLER = '[OrgaappModul] PostDokumentUpload La
 
 export class PostDokumentUploadAction implements NgrxManagerAction {
     readonly type = POST_DOKUMENT_UPLOAD;
-    constructor(public blob: Blob, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor( public file:Blob , public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
 export class PostDokumentUploadErfolgreichAction implements NgrxManagerAction {
     readonly type = POST_DOKUMENT_UPLOAD_ERFOLGREICH;
-    constructor(public dokumentUploadResponse: api.DokumentUploadResponse, public blob: Blob, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor(public dokumentUploadResponse: api.DokumentUploadResponse,  public file:Blob , public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
 export class PostDokumentUploadFehlerAction implements NgrxManagerAction {
     readonly type = POST_DOKUMENT_UPLOAD_FEHLER;
-    constructor(public payload: any, public blob: Blob, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor(public payload: any,  public file:Blob , public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
     
 

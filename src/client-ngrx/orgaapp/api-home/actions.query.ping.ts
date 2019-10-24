@@ -14,7 +14,7 @@ export class PingAction implements NgrxManagerAction {
     }
 export class PingErfolgreichAction implements NgrxManagerAction {
     readonly type = PING_ERFOLGREICH;
-    constructor(public string: string, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor(public stringPayload: string, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
 export class PingFehlerAction implements NgrxManagerAction {
     readonly type = PING_FEHLER;

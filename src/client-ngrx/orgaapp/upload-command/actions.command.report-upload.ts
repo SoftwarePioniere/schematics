@@ -10,15 +10,15 @@ export const POST_REPORT_UPLOAD_FEHLER = '[OrgaappModul] PostReportUpload Ladefe
 
 export class PostReportUploadAction implements NgrxManagerAction {
     readonly type = POST_REPORT_UPLOAD;
-    constructor(public blob: Blob, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor( public file:Blob , public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
 export class PostReportUploadErfolgreichAction implements NgrxManagerAction {
     readonly type = POST_REPORT_UPLOAD_ERFOLGREICH;
-    constructor(public dokumentUploadResponse: api.DokumentUploadResponse, public blob: Blob, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor(public dokumentUploadResponse: api.DokumentUploadResponse,  public file:Blob , public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
 export class PostReportUploadFehlerAction implements NgrxManagerAction {
     readonly type = POST_REPORT_UPLOAD_FEHLER;
-    constructor(public payload: any, public blob: Blob, public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
+    constructor(public payload: any,  public file:Blob , public optPayload: any = null, public ngrxManager: NgrxManagerConfig = null) {}
     }
     
 
