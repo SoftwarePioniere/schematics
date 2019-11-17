@@ -23,7 +23,7 @@ export class <%= classify(method) %>FehlerAction implements NgrxManagerAction {
     }
 export class <%= classify(method) %>NichtAusgefuehrtAction implements NgrxManagerAction {
     readonly type = <%= underscore(classify(method)).toUpperCase() %>_NICHT_AUSGEFUEHRT;
-    constructor(<%= optPayload %>) {}
+    constructor(<%= optPayload %>, public ngrxManager: NgrxManagerConfig = null) {}
     }
     <%
 } else {
