@@ -18,10 +18,10 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
             map((x: ac.<%= classify(method) %>Action) => {
                 return this.ngrxManagerService.checkRequestCall(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
-            flatMap((x: ac.<%= classify(method) %>Action) => {
+            flatMap((x: boolean|ac.<%= classify(method) %>Action) => {
                 if (typeof x !== 'boolean') {
                     const nextAction = new ac.<%= classify(method) %>NichtAusgefuehrtAction();
-                    return nextAction;
+                    return of(nextAction);
                 } else {
                     const optPayload = (x !== undefined && x !== null && x.optPayload !== undefined) ? x.optPayload : null;
                     return this.getService().<%= method %>(<%= requestparamsVariableNames %>).pipe(
