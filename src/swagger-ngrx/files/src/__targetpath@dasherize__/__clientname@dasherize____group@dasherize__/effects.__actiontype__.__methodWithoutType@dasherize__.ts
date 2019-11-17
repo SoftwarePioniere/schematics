@@ -19,7 +19,7 @@ export class <%= classify(clientname) %><%= classify(methodWithoutType) %>Effect
                 return this.ngrxManagerService.checkRequestCall(ac.<%= underscore(classify(method)).toUpperCase() %><% if (actiontype.toUpperCase() == 'QUERY') { %><%= requestparamsVariableIdentifier %><% } %>, x, RequestMethod.<%= actiontype.toUpperCase() %>, RequestType.Anfrage);
             }),
             flatMap((x: boolean|ac.<%= classify(method) %>Action) => {
-                if (typeof x !== 'boolean') {
+                if (typeof x === 'boolean') {
                     const nextAction = new ac.<%= classify(method) %>NichtAusgefuehrtAction();
                     return of(nextAction);
                 } else {
