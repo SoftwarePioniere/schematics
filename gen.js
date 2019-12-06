@@ -4,7 +4,7 @@ let rimraf = require('rimraf');
 const makeDir = require('make-dir');
 let request = require('request');
 let targetpath = "client-ngrx";
-let isDev = false;
+let isDev = true;
 let schematicCollection = "@softwarepioniere/schematics";
 let sourceConfig = "swagger-sources.json";
 
@@ -215,11 +215,50 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                                 console.log(paramString);
                             }
                         } else {
+                            // ArrayType ermitteln
+                            let arrayType = null;
+                            if(api.paths[variable].get.responses[param].schema.items !== undefined && api.paths[variable].get.responses[param].schema.items.$ref){
+
+                                let ref = api.paths[variable].get.responses[param].schema.items.$ref.replace('#/definitions/', '');
+                                let result = ref.split('[');
+                                if (result.length > 1) {
+                                    let paramString = result[0] + result[1].substr(0, result[1].length - 1);
+                                    if(paramString.endsWith('= '))
+                                    {
+                                        paramString += null;
+                                    }
+
+                                    if (isDev) {
+                                        console.log(paramString);
+                                    }
+                                } else {
+                                    if(ref.endsWith('= '))
+                                    {
+                                        ref += null;
+                                    }
+
+                                    if (isDev) {
+                                        console.log(ref);
+                                    }
+                                }
+
+                                arrayType = ref;
+                            } else {
+                                console.log('REF NICHT VORHANDEN BEI ARRAY' + api.paths[variable].get.responses[param].schema);
+                            }
+
+
                             if(type.endsWith('= '))
                             {
                                 type += null;
                             }
-                            responseParams.push(type);
+                            if(arrayType !== null) {
+                                // array besitzt typ
+                                responseParams.push(type + '<api.' + arrayType + '>');
+                            } else {
+                                // array besitzt keinen typ
+                                responseParams.push(type + '<any>');
+                            }
                             if (isDev) {
                                 console.log(type);
                             }

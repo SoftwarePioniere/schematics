@@ -39,7 +39,7 @@ export default function (options: any): Rule {
         requestparams = parseParams(options.requestparams);
     }
     if (options.responseparams) {
-        responseparams = parseParams(options.responseparams);
+        responseparams = parseParamsForResponse(options.responseparams);
     }
 
     if (options.requestparams) {
@@ -97,10 +97,34 @@ export function parseParams(params: string) {
             // Model
             if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date' || paramArray[param].trim() == 'Blob') {
                 result.push('public ' + parsePropertyName(paramArray[param]) + ': ' + paramArray[param]);
-            } else if (paramArray[param] != 'array') {
+            } else if (!paramArray[param].includes('array')) {
                 result.push('public ' + parsePropertyName(paramArray[param]) + ': api.' + paramArray[param]);
             } else {
-                result.push('public ' + parsePropertyName(paramArray[param]) + ': Array<any>');
+                result.push('public payload: ' + paramArray[param]);
+            }
+
+        }
+    }
+    return result.join(', ');
+}
+
+export function parseParamsForResponse(params: string) {
+    let result: Array<string> = [];
+    let paramArray = params.split(',');
+    for (let param in paramArray) {
+        let paramValueArray = paramArray[param].split(':');
+        if (paramValueArray.length > 1) {
+            // variablename:type
+            result.push(' public ' + parsePropertyName(paramValueArray[0]) + ':' + paramValueArray[1] + ' ');
+        } else {
+            // Model
+            if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date' || paramArray[param].trim() == 'Blob') {
+                result.push('public payload: ' + paramArray[param]);
+            } else if (!paramArray[param].includes('array')) {
+                result.push('public payload: api.' + paramArray[param]);
+            } else {
+                let paramString = paramArray[param]
+                result.push('public payload: ' + paramString.charAt(0).toUpperCase() + paramString.slice(1));
             }
 
         }
@@ -172,7 +196,8 @@ export function parsePropertyName(propertyName: string) {
     const searchResult = nameBlacklist.find(x => x.toLowerCase() === propertyName.toLowerCase());
 
     if(searchResult){
-        return newPropertyName + 'Payload';
+        // return newPropertyName + 'Payload';
+        return 'payload';
     }
     return newPropertyName;
 }
