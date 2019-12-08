@@ -4,7 +4,7 @@ let rimraf = require('rimraf');
 const makeDir = require('make-dir');
 let request = require('request');
 let targetpath = "client-ngrx";
-let isDev = true;
+let isDev = false;
 let schematicCollection = "@softwarepioniere/schematics";
 let sourceConfig = "swagger-sources.json";
 
@@ -252,12 +252,15 @@ const generateGetCallbacks = function (api, clientname, callbacks) {
                             {
                                 type += null;
                             }
-                            if(arrayType !== null) {
+                            if(type === 'array' && arrayType !== null) {
                                 // array besitzt typ
                                 responseParams.push(type + '<api.' + arrayType + '>');
-                            } else {
+                            } else if(type === 'array'){
                                 // array besitzt keinen typ
                                 responseParams.push(type + '<any>');
+                            } else {
+                                // kein Array
+                                responseParams.push(type);
                             }
                             if (isDev) {
                                 console.log(type);
