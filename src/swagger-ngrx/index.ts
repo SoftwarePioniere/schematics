@@ -121,9 +121,14 @@ export function parseParamsForResponse(params: string) {
             if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date' || paramArray[param].trim() == 'Blob') {
                 result.push('public payload: ' + paramArray[param]);
             } else if (!paramArray[param].includes('array')) {
-                result.push('public payload: api.' + paramArray[param]);
+                if(paramArray[param] === 'object') {
+                    result.push('public payload: any');
+                } else {
+                    result.push('public payload: api.' + paramArray[param]);
+                }
             } else {
-                let paramString = paramArray[param]
+                let paramString = paramArray[param];
+                paramString = paramString.replace('object', 'any');
                 result.push('public payload: ' + paramString.charAt(0).toUpperCase() + paramString.slice(1));
             }
 
