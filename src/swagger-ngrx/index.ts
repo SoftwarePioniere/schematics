@@ -94,6 +94,10 @@ export function parseParams(params: string) {
             // variablename:type
             result.push(' public ' + parsePropertyName(paramValueArray[0]) + ':' + paramValueArray[1] + ' ');
         } else {
+            if (paramArray[param].trim() == 'integer') {
+                paramArray[param] = 'number';
+            }
+
             // Model
             if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date' || paramArray[param].trim() == 'Blob') {
                 result.push('public ' + parsePropertyName(paramArray[param]) + ': ' + paramArray[param]);
@@ -117,6 +121,10 @@ export function parseParamsForResponse(params: string) {
             // variablename:type
             result.push(' public ' + parsePropertyName(paramValueArray[0]) + ':' + paramValueArray[1] + ' ');
         } else {
+            if (paramArray[param].trim() == 'integer') {
+                paramArray[param] = 'number';
+            }
+
             // Model
             if (paramArray[param].trim() == 'string' || paramArray[param].trim() == 'number' || paramArray[param].trim() == 'integer' || paramArray[param].trim() == 'Date' || paramArray[param].trim() == 'Blob') {
                 result.push('public payload: ' + paramArray[param]);
@@ -189,7 +197,7 @@ export function apiUsed(requestParams: string, responseParams: string) {
 export function parsePropertyName(propertyName: string) {
     let newPropertyName = propertyName.substr(0, 1).toLowerCase() + propertyName.substr(1, propertyName.length);
     newPropertyName = newPropertyName.replace('-', '');
-    newPropertyName = newPropertyName.replace('_', '');
+    // newPropertyName = newPropertyName.replace('_', '');
 
     let nameBlacklist = [
         // JavaScript Objects, Properties, and Methods
